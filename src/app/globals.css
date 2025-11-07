@@ -1,8 +1,36 @@
 @import "tailwindcss";
 
 :root {
+  /* HI Blue Color Palette - From Darker to Lighter */
+  --hi-blue-900: #0d3a52;
+  --hi-blue-800: #144d6b;
+  --hi-blue-700: #1a5f8f;
+  --hi-blue-600: #1f7ab3;
+  --hi-blue-500: #268ece; /* Main HI Blue */
+  --hi-blue-400: #4ea5d9;
+  --hi-blue-300: #76bbe3;
+  --hi-blue-200: #9fd1ed;
+  --hi-blue-100: #c7e6f7;
+  --hi-blue-50: #e3f4fc;
+
   --background: #ffffff;
   --foreground: #171717;
+}
+
+@theme {
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+  /* HI Blue Palette */
+  --color-hi-blue-900: var(--hi-blue-900);
+  --color-hi-blue-800: var(--hi-blue-800);
+  --color-hi-blue-700: var(--hi-blue-700);
+  --color-hi-blue-600: var(--hi-blue-600);
+  --color-hi-blue-500: var(--hi-blue-500);
+  --color-hi-blue-400: var(--hi-blue-400);
+  --color-hi-blue-300: var(--hi-blue-300);
+  --color-hi-blue-200: var(--hi-blue-200);
+  --color-hi-blue-100: var(--hi-blue-100);
+  --color-hi-blue-50: var(--hi-blue-50);
 }
 
 @theme inline {
@@ -22,5 +50,20 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+}
+
+p,
+span,
+li,
+a {
+  font-family: var(--font-body);
 }

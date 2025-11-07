@@ -1,0 +1,72 @@
+import { notFound } from "next/navigation";
+import { Locale, hasLocale, NextIntlClientProvider } from "next-intl";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import QueryProvider from "@/components/utility/QueryProvider";
+import { ReactNode } from "react";
+import { routing } from "@/i18n/routing";
+import { Ubuntu, Raleway } from "next/font/google";
+import "../globals.css";
+import Header from "@/components/layout/header/Header";
+import { Footer } from "@/components/layout/footer/Footer";
+import AuthProvider from "../../../context/SessionProvider";
+import { CartProvider } from "../../../context/CartContext";
+
+type Props = {
+  children: ReactNode;
+  params: Promise<{ locale: Locale }>;
+};
+
+const quattrocento = Ubuntu({
+  weight: ["300", "400", "700"], // tergantung kebutuhan
+  subsets: ["latin"],
+  variable: "--font-heading",
+  display: "swap",
+});
+
+const fanwood_text = Raleway({
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  variable: "--font-body",
+  display: "swap",
+});
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+export async function generateMetadata(props: Omit<Props, "children">) {
+  const { locale } = await props.params;
+
+  const t = await getTranslations({ locale, namespace: "LocaleLayout" });
+
+  return {
+    title: t("title"),
+  };
+}
+
+export default async function LocaleLayout({ children, params }: Props) {
+  // Ensure that the incoming `locale` is valid
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
+
+  // Enable static rendering
+  setRequestLocale(locale);
+
+  return (
+    <html className="h-full" lang={locale}>
+      <body className={`${fanwood_text.variable} ${quattrocento.variable} antialiased`}>
+        <AuthProvider>
+          <NextIntlClientProvider>
+            <CartProvider>
+              <Header />
+              <QueryProvider>{children}</QueryProvider>
+              <Footer />
+            </CartProvider>
+          </NextIntlClientProvider>
+        </AuthProvider>
+      </body>
+    </html>
+  );
+}
