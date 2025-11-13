@@ -7,19 +7,84 @@ import { useQuery } from "@tanstack/react-query";
 import { useCart } from "../../../../context/CartContext";
 import { useRouter } from "next/navigation";
 import { fetchdonorList } from "../../../../services/donation/campaign/auth-donorlist-bycampaign";
+import { Campaign } from "@/app/types/campaign";
+import PopupNotif from "@/components/utility/PopupNotif";
+import { inputCart } from "../../../../services/donation/transaction/auth-cart";
 
-const donationAmounts = [25, 50, 100, 250, 500, 1000];
+interface CampaignHeaderProps {
+  post: Campaign;
+}
 
-export function DonationCard() {
+const donationAmounts = [50000, 250000, 500000, 750000, 1000000, 5000000];
+
+export function DonationCard({ post }: CampaignHeaderProps) {
   const [selectedAmount, setSelectedAmount] = useState(100);
   const [customAmount, setCustomAmount] = useState("");
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const { cartItems, setCartItems } = useCart();
+  const [cookies, setCookies] = useState<string | null>(null);
+  const [notifMessage, setNotifMessage] = useState("");
+  const router = useRouter();
 
-  const raised = 87450;
-  const goal = 150000;
   const donors = 1243;
   const daysLeft = 42;
-  const percentage = (raised / goal) * 100;
+  const raised = post?.donation_collected ?? 0;
+  const goal = post?.target_donation ?? 0;
+  const percentage = goal > 0 ? Math.round((raised / goal) * 100) : 0;
+
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(value);
+  };
+
+  const handleDonasiClick = () => {
+    // Ambil nominal donasi — prioritas customAmount, lalu selectedAmount
+    const amount = customAmount ? Number(customAmount) : selectedAmount;
+
+    if (!amount || amount <= 0) {
+      setNotifMessage("Please enter a valid donation amount.");
+      return;
+    }
+
+    if (post?.id) {
+      // ambil cookie ID
+      const cookiesId = document.cookie
+        .split(";")
+        .find((cookie) => cookie.trim().startsWith("osscart="))
+        ?.split("=")[1];
+
+      if (cookiesId) {
+        const cartData = {
+          cookies_id: cookiesId,
+          campaign_id: post.id,
+          quantity: 1, // karena bukan qurban, cukup 1
+          amount,
+        };
+
+        // simpan di localStorage
+        const storedData = JSON.parse(localStorage.getItem("osscart") || "[]");
+        const updatedCart = [...storedData, cartData];
+
+        localStorage.setItem("osscart", JSON.stringify(updatedCart));
+        setCartItems(updatedCart);
+
+        // kirim ke API
+        inputCart(cartData.cookies_id, cartData.campaign_id, cartData.quantity, cartData.amount)
+          .then(() => {
+            setNotifMessage("Donation Added!");
+            router.push(`/checkout`);
+          })
+          .catch(() => {
+            setNotifMessage("An error occurred when making a donation.");
+          });
+      } else {
+        setNotifMessage("Cookie 'osscart' tidak ditemukan.");
+      }
+    }
+  };
 
   return (
     <>
@@ -30,11 +95,11 @@ export function DonationCard() {
           <div className="mb-6">
             <div className="flex items-baseline justify-between mb-2">
               <div>
-                <div className="text-3xl text-gray-900">${raised.toLocaleString()}</div>
-                <div className="text-sm text-gray-600">raised of ${goal.toLocaleString()} goal</div>
+                <div className="text-3xl text-gray-900">{formatCurrency(post.donation_collected)}</div>
+                <div className="text-sm text-gray-600">raised of {formatCurrency(post.target_donation)} goal</div>
               </div>
               <div className="text-right">
-                <div className="text-xl text-gray-900">{Math.round(percentage)}%</div>
+                <div className="text-xl text-gray-900">{percentage}%</div>
                 <div className="text-xs text-gray-600">funded</div>
               </div>
             </div>
@@ -46,7 +111,7 @@ export function DonationCard() {
             <div className="text-center">
               <div className="flex items-center justify-center gap-1 mb-1">
                 <Users size={16} className="text-gray-600" />
-                <span className="text-lg text-gray-900">{donors}</span>
+                <span className="text-lg text-gray-900">{post.support}</span>
               </div>
               <div className="text-xs text-gray-600">supporters</div>
             </div>
@@ -79,7 +144,7 @@ export function DonationCard() {
                   }}
                   className={`py-3 px-4 border rounded-lg text-sm transition-all ${selectedAmount === amount && !customAmount ? "border-[#1780b3] bg-[#1780b3]/5 text-[#1780b3]" : "border-gray-300 text-gray-700 hover:border-[#1780b3]"}`}
                 >
-                  ${amount}
+                  {formatCurrency(amount)}
                 </button>
               ))}
             </div>
@@ -101,7 +166,9 @@ export function DonationCard() {
 
           {/* Donation Buttons */}
           <div className="space-y-3">
-            <Button className="w-full bg-[#1780b3] hover:bg-[#075d8e] h-12 text-base">Donate Now</Button>
+            <Button className="w-full bg-[#1780b3] hover:bg-[#075d8e] h-12 text-base" onClick={handleDonasiClick}>
+              Donate Now
+            </Button>
             <Button variant="outline" className="w-full bg-white h-12 text-base gap-2 border-[#1780b3] text-[#1780b3] hover:bg-[#1780b3] hover:text-white" onClick={() => setShareDialogOpen(true)}>
               <Share2 size={18} />
               Share Campaign
@@ -223,6 +290,7 @@ export function DonationCard() {
             <p className="text-xs text-gray-600 text-center">Tax deductible in the US. Tax ID: 12-3456789</p>
           </div>
         </div>
+        <PopupNotif message={notifMessage} duration={3000} onClose={() => setNotifMessage("")} />
       </div>
     </>
   );

@@ -7,9 +7,9 @@ type CartItem = {
   cookies_id: number;
   campaign_id: number;
   quantity: number;
-  name: string;
+  campaign_name: string;
   amount: number;
-  image?: string;
+  campaign_img?: string;
   slug?: string; // Gambar produk (opsional)
 };
 

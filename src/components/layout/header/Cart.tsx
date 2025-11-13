@@ -19,18 +19,15 @@ export function Cart({ onCartHover }: TopHeaderProps) {
   const user: any = session?.user;
   const [isCartHovered, setIsCartHovered] = useState(false);
   const [cartDetails, setCartDetails] = useState<CartItem[]>([]);
-  const { cartItems, cartCount } = useCart();
+  const { cartItems, setCartItems, cartCount, removeItemFromCart } = useCart();
 
   useEffect(() => {
     const fetchCartDetails = async () => {
       try {
-        // Step 1: Fetch all campaigns data
-        const allCampaigns = await fetchCampaign(); // Mengambil semua data campaign
+        const allCampaigns = await fetchCampaign();
 
-        // Step 2: Match cartItems with campaigns data
         const updatedCartItems = cartItems.map((item) => {
-          const campaignData = allCampaigns.data.find((campaign: { id: number }) => campaign.id === item.campaign_id); // Mencocokkan campaign_id
-          // console.log('Matching campaignData:', campaignData); // Debug log
+          const campaignData = allCampaigns.find((campaign) => campaign.id === item.campaign_id);
 
           return {
             ...item,
@@ -40,8 +37,11 @@ export function Cart({ onCartHover }: TopHeaderProps) {
           };
         });
 
-        // console.log('Updated Cart Items:', updatedCartItems); // Debug log
-        setCartDetails(updatedCartItems); // Set state dengan data yang diperbarui
+        // Cek apakah data baru berbeda dari data lama sebelum update
+        const isChanged = JSON.stringify(cartItems) !== JSON.stringify(updatedCartItems);
+        if (isChanged) {
+          setCartItems(updatedCartItems);
+        }
       } catch (error) {
         console.error("Error fetching campaign data:", error);
       }
@@ -58,6 +58,10 @@ export function Cart({ onCartHover }: TopHeaderProps) {
       currency: "IDR",
       minimumFractionDigits: 0,
     }).format(price);
+  };
+
+  const handleDeleteItem = (campaignId: number) => {
+    removeItemFromCart(campaignId);
   };
 
   return (
@@ -129,17 +133,22 @@ export function Cart({ onCartHover }: TopHeaderProps) {
                           <div className="flex items-center gap-2.5">
                             {/* Icon */}
                             <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-[#268ece]/10 to-[#3da9f5]/10 rounded-lg flex items-center justify-center text-lg border border-[#268ece]/20">
-                              <Image src={`https://cdnx.human-initiative.org/image/${item.image}`} width={100} height={100} alt={item.name} />
+                              <Image src={`https://cdnx.human-initiative.org/image/${item.campaign_img}`} width={100} height={100} alt={item.campaign_name} />
                             </div>
 
                             {/* Content */}
                             <div className="flex-1 min-w-0">
-                              <h5 className="text-sm text-[#0a2540] mb-1 leading-tight">{item.name}</h5>
+                              <h5 className="text-sm text-[#0a2540] mb-1 leading-tight h-[1rem] overflow-hidden">{item.campaign_name}</h5>
                               <span className="text-xs text-[#268ece]">{formatPrice(item.amount)}</span>
                             </div>
 
                             {/* Delete Button */}
-                            <Button variant="ghost" size="icon" className="rounded-lg hover:bg-red-50 text-[#7a99b3] hover:text-red-500 w-7 h-7 transition-all duration-200 opacity-0 group-hover:opacity-100 flex-shrink-0">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => handleDeleteItem(item.campaign_id)}
+                              className="rounded-lg hover:bg-red-50 text-[#7a99b3] hover:text-red-500 w-7 h-7 transition-all duration-200 opacity-0 group-hover:opacity-100 flex-shrink-0"
+                            >
                               <Trash2 className="w-3.5 h-3.5" />
                             </Button>
                           </div>

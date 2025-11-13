@@ -59,7 +59,8 @@ const page = () => {
       </main>
 
       {/* Dialogs */}
-      <PartnerDialog open={partnerDialogOpen} onOpenChange={setPartnerDialogOpen} />
+      <PartnerDialog open={partnerDialogOpen} onOpenChange={setPartnerDialogOpen} projectId={selectedProject?.id ?? null} />
+
       <ProjectDetailsDialog open={projectDetailsOpen} onOpenChange={setProjectDetailsOpen} project={selectedProject} onBookAppointment={handleBookAppointment} />
       <SortingDialog open={sortingDialogOpen} onOpenChange={setSortingDialogOpen} sortBy={sortBy} onSortChange={handleSortChange} />
     </div>

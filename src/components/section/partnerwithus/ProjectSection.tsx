@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Building2, Baby, AlertTriangle, Sparkles, Home, MapPin, Users, ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import Image from "next/image";
 import { projects, categories } from "../../../../data/constants";
+import { fetchListProject } from "../../../../services/project/auth-list-program";
+import { postAppointment } from "../../../../services/project/auth-post-appoinment";
+import { useQuery, useMutation } from "@tanstack/react-query";
 
 interface ProjectsSectionProps {
   onProjectDetails: (project: any) => void;
@@ -13,13 +16,19 @@ interface ProjectsSectionProps {
   sortBy: string;
 }
 
-const iconMap: Record<string, React.ReactNode> = {
-  Building2: <Building2 className="w-5 h-5" />,
-  Baby: <Baby className="w-5 h-5" />,
-  AlertTriangle: <AlertTriangle className="w-5 h-5" />,
-  Sparkles: <Sparkles className="w-5 h-5" />,
-  Home: <Home className="w-5 h-5" />,
-};
+interface Project {
+  id: number;
+  title: string;
+  parent_program: string;
+  program_name: string;
+  project_description: string;
+  project_goal: string;
+  project_scope: string;
+  currency: string;
+  amount: string;
+  quantity: number;
+  files: { file_path?: string }[];
+}
 
 const ITEMS_PER_LOAD = 6;
 
@@ -27,39 +36,88 @@ export function ProjectsSection({ onProjectDetails, onBookProject, onOpenSorting
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [visibleProjectsCount, setVisibleProjectsCount] = useState<number>(ITEMS_PER_LOAD);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  // Helper function for sorting
+  const { data: projectResponse, isLoading } = useQuery({
+    queryKey: ["projects"],
+    queryFn: fetchListProject,
+  });
+
+  //   console.log("✅ projectResponse (raw):", projectResponse);
+  //   console.log("❌ error:", Error);
+  //   console.log("⏳ isLoading:", isLoading);
+
+  const projects: Project[] = Array.isArray(projectResponse) ? projectResponse : projectResponse?.data ?? [];
+
+  useEffect(() => {
+    if (projects.length > 0) {
+      //   console.log("Total projects:", projects.length);
+      //   console.table(
+      //     projects.map((p) => ({
+      //       id: p.id,
+      //       title: p.title,
+      //       parent_program: p.parent_program,
+      //     }))
+      //   );
+    }
+  }, [projects]);
+
+  // 🧠 Generate unique categories from parent_program
+  const categories = useMemo(() => {
+    const categoryList = [
+      { id: "all", name: "All Projects", icon: Home },
+      { id: "infrastruktur", name: "Infrastruktur", icon: Building2 },
+      { id: "disaster", name: "Disaster Relief", icon: AlertTriangle },
+      { id: "children", name: "Children", icon: Baby },
+      { id: "empowerment", name: "Empowerment", icon: Users },
+    ];
+
+    // console.log("categories:", categoryList);
+    return categoryList;
+  }, []);
+
+  // 🔍 Filter projects by category (based on parent_program)
+  const filteredProjects = useMemo(() => {
+    if (selectedCategory === "all") {
+      return projects;
+    }
+
+    const result = projects.filter((p) => {
+      const parent = p.parent_program?.toUpperCase() || "";
+      const match =
+        (selectedCategory === "infrastruktur" && parent.includes("INFRASTRUKTUR")) ||
+        (selectedCategory === "disaster" && parent.includes("DRM")) ||
+        (selectedCategory === "children" && parent.includes("CHILD PROTECTION")) ||
+        (selectedCategory === "empowerment" && parent.includes("PROGRAM EMPOWERMENT"));
+
+      if (match) console.log("✅ Match:", selectedCategory, "→", parent);
+      return match;
+    });
+
+    console.log("🔎 Filtered", selectedCategory, "=>", result.length, "projects");
+    return result;
+  }, [selectedCategory, projects]);
+
+  // 📊 Sorting
   const parseBudget = (budgetStr: string) => {
-    const match = budgetStr.match(/[\d,]+/);
+    const match = budgetStr?.match(/[\d,]+/);
     return match ? parseInt(match[0].replace(/,/g, "")) : 0;
   };
 
-  // Get projects for current category
-  const getCurrentCategoryProjects = (categoryId: string) => {
-    return categoryId === "all" ? projects : projects.filter((p) => p.category === categoryId);
-  };
-
-  // Apply sorting
-  const sortProjects = (projectsToSort: any[]) => {
-    const sorted = [...projectsToSort];
-
+  const sortedProjects = useMemo(() => {
+    const sorted = [...filteredProjects];
     switch (sortBy) {
       case "newest":
-        return sorted.sort((a, b) => new Date(b.createdDate || "2024-01-01").getTime() - new Date(a.createdDate || "2024-01-01").getTime());
-      case "most-supported":
-        return sorted.sort((a, b) => (b.supportCount || 0) - (a.supportCount || 0));
+        return sorted.sort((a, b) => b.id - a.id);
       case "highest-budget":
-        return sorted.sort((a, b) => parseBudget(b.budget) - parseBudget(a.budget));
+        return sorted.sort((a, b) => parseBudget(b.amount) - parseBudget(a.amount));
+      case "most-supported":
+        return sorted.sort((a, b) => (b.quantity ?? 0) - (a.quantity ?? 0));
       default:
         return sorted;
     }
-  };
+  }, [filteredProjects, sortBy]);
 
-  // Filter and sort projects
-  const filteredProjects = getCurrentCategoryProjects(selectedCategory);
-  const sortedProjects = sortProjects(filteredProjects);
-
-  // Visible projects (with Load More)
   const visibleProjects = sortedProjects.slice(0, visibleProjectsCount);
   const hasMoreProjects = visibleProjectsCount < sortedProjects.length;
   const progressPercentage = Math.min((visibleProjectsCount / sortedProjects.length) * 100, 100);
@@ -67,16 +125,14 @@ export function ProjectsSection({ onProjectDetails, onBookProject, onOpenSorting
 
   const handleLoadMore = () => {
     setIsLoadingMore(true);
-    // Simulate loading delay for better UX
     setTimeout(() => {
       setVisibleProjectsCount((prev) => Math.min(prev + ITEMS_PER_LOAD, sortedProjects.length));
       setIsLoadingMore(false);
     }, 800);
   };
 
-  // Reset visible count when category changes
   const handleCategoryChange = (value: string) => {
-    setSelectedCategory(value);
+    setSelectedCategory(value === "all" ? "all" : value);
     setVisibleProjectsCount(ITEMS_PER_LOAD);
   };
 
@@ -110,7 +166,26 @@ export function ProjectsSection({ onProjectDetails, onBookProject, onOpenSorting
                 <div className="relative group/tabs" style={{ width: "calc(100% - 180px)" }}>
                   <TabsList className="flex justify-start gap-2 bg-transparent h-auto p-0 pb-2 overflow-x-auto scrollbar-light scroll-smooth w-full">
                     {categories.map((category) => {
-                      const categoryProjects = category.id === "all" ? projects : projects.filter((p) => p.category === category.id);
+                      // 🔍 Perbaikan logika perhitungan project per kategori
+                      const categoryProjects = projects.filter((p) => {
+                        const parent = p.parent_program?.toUpperCase() || "";
+
+                        switch (category.id) {
+                          case "infrastruktur":
+                            return parent.includes("INFRASTRUKTUR");
+                          case "disaster":
+                            return parent.includes("DRM");
+                          case "children":
+                            return parent.includes("CHILD PROTECTION");
+                          case "empowerment":
+                            return parent.includes("PROGRAM EMPOWERMENT");
+                          case "all":
+                            return true;
+                          default:
+                            return false;
+                        }
+                      });
+
                       return (
                         <TabsTrigger
                           key={category.id}
@@ -124,7 +199,7 @@ export function ProjectsSection({ onProjectDetails, onBookProject, onOpenSorting
                           <div className="relative flex items-center gap-3">
                             {/* Icon */}
                             <div className="w-10 h-10 rounded-xl bg-gray-100 group-data-[state=active]:bg-white/20 flex items-center justify-center text-gray-700 group-data-[state=active]:text-white transition-all duration-300 group-hover:scale-110">
-                              {iconMap[category.icon]}
+                              {category.icon && <category.icon className="w-4 h-4" />}
                             </div>
 
                             {/* Text */}
@@ -203,12 +278,18 @@ export function ProjectsSection({ onProjectDetails, onBookProject, onOpenSorting
                         >
                           {/* Image */}
                           <div className="relative h-56 overflow-hidden flex-shrink-0">
-                            <Image src={project.image} width={400} height={400} alt={project.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                            <Image
+                              src={"https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2070"}
+                              width={400}
+                              height={400}
+                              alt={project.title}
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                             {/* Category Badge on Image */}
                             <div className="absolute top-4 left-4">
-                              <Badge className="bg-[#268ece] text-white shadow-lg backdrop-blur-sm">{categories.find((c) => c.id === project.category)?.name}</Badge>
+                              <Badge className="bg-[#268ece] text-white shadow-lg backdrop-blur-sm">{categories.find((c) => c.id === project.parent_program)?.name}</Badge>
                             </div>
 
                             {/* Quick View Overlay */}
@@ -227,17 +308,17 @@ export function ProjectsSection({ onProjectDetails, onBookProject, onOpenSorting
                           {/* Content */}
                           <div className="p-6 flex flex-col flex-grow">
                             <h3 className="text-xl mb-3 text-gray-900 group-hover:text-[#268ece] transition-colors line-clamp-2">{project.title}</h3>
-                            <p className="text-gray-600 mb-4 line-clamp-3 leading-relaxed">{project.description}</p>
+                            <p className="text-gray-600 mb-4 line-clamp-3 leading-relaxed">{project.project_description}</p>
 
                             {/* Meta Info */}
                             <div className="flex items-center gap-4 mb-4 text-sm text-gray-500">
                               <div className="flex items-center gap-1">
                                 <MapPin className="w-4 h-4" />
-                                <span className="truncate">{project.location.split(",")[0]}</span>
+                                <span className="truncate">{project.program_name.split(",")[0]}</span>
                               </div>
                               <div className="flex items-center gap-1">
                                 <Users className="w-4 h-4" />
-                                <span>{project.beneficiaries.split(" ")[0]}</span>
+                                <span>{project.parent_program.split(" ")[0]}</span>
                               </div>
                             </div>
 

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 interface PostAppointment {
   user_id?: string | null;
@@ -18,20 +18,16 @@ export const postAppointment = async (data: PostAppointment): Promise<any> => {
       formData.append(key, value);
     });
 
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/project/appoinment/appoinment-api/create`,
-      formData,
-      {
-        headers: {
-          Authorization: process.env.NEXT_PUBLIC_API_KEY_APPOINTMENT || '',
-          'Content-Type': 'multipart/form-data'
-        }
-      }
-    );
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_API_URL}/project/appoinment/appoinment-api/create`, formData, {
+      headers: {
+        Authorization: process.env.NEXT_PUBLIC_API_KEY_APPOINTMENT || "",
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
     return response.data;
   } catch (error) {
-    console.error('Error posting appointment', error);
+    console.error("Error posting appointment", error);
     throw error;
   }
 };

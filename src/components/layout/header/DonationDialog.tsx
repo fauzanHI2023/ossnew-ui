@@ -1,4 +1,5 @@
-import { useState } from "react";
+"use client";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,9 +9,17 @@ import { Heart, Building2, Smartphone, CheckCircle2, ArrowRight, ChevronDown, Ch
 import { Badge } from "@/components/ui/badge";
 import { inputCart } from "../../../../services/donation/transaction/auth-cart";
 import { useCart } from "../../../../context/CartContext";
+import { useSession } from "next-auth/react";
 import { fetchPaymentChannel } from "../../../../services/donation/transaction/auth-payment-channel";
 import { fetchDeleteCart } from "../../../../services/donation/transaction/auth-delete-cart";
 import { fetchCampaign } from "../../../../services/donation/campaign/auth-campaign";
+import { createTransactionFlip } from "../../../../services/donation/transaction/auth-create-transaction";
+import { createTransactionBankTransfer } from "../../../../services/donation/transaction/auth-create-transaction";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import { useQuery } from "@tanstack/react-query";
+import { PaymentChannel } from "@/app/types/paymentchannel";
+import { User } from "@/app/types/user";
 
 interface DonationDialogProps {
   open: boolean;
@@ -21,28 +30,13 @@ const presetAmounts = [50000, 100000, 250000, 500000, 1000000, 2500000];
 
 const campaigns = ["Education for Remote Area Children", "Emergency Disaster Relief", "Women's SME Empowerment", "Health Infrastructure", "Food Assistance Program"];
 
-const paymentMethods = [
-  {
-    id: "bank",
-    name: "Bank Transfer",
-    icon: Building2,
-    options: ["BSI (Bank Syariah Indonesia)", "BCA (Bank Central Asia)"],
-  },
-  {
-    id: "va",
-    name: "Virtual Account",
-    icon: Building2,
-    options: ["BCA Virtual Account", "Mandiri Virtual Account", "BNI Virtual Account", "BRI Virtual Account"],
-  },
-  {
-    id: "ewallet",
-    name: "E-Wallet",
-    icon: Smartphone,
-    options: ["QRIS", "GoPay", "ShopeePay"],
-  },
-];
-
 export function DonationDialog({ open, onOpenChange }: DonationDialogProps) {
+  const { data: session, status } = useSession();
+  const [userId, setUserId] = useState<number | null>(null);
+  const [fullName, setFullName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [phone, setPhone] = useState<string | undefined>("");
+  const [anonim, setAnonim] = useState<boolean>(false);
   const [amount, setAmount] = useState<number>(100000);
   const [customAmount, setCustomAmount] = useState<string>("");
   const [selectedCampaign, setSelectedCampaign] = useState<string>("");
@@ -50,6 +44,16 @@ export function DonationDialog({ open, onOpenChange }: DonationDialogProps) {
   const [expandedMethod, setExpandedMethod] = useState<string>("");
   const [selectedPaymentOption, setSelectedPaymentOption] = useState<string>("");
   const [step, setStep] = useState<number>(1);
+
+  useEffect(() => {
+    if (status === "authenticated" && session) {
+      const user = session.user as User;
+      setUserId(user.phpDonorData.id);
+      setFullName(user.full_name);
+      setEmail(user.email);
+      setPhone(user.phones.phone_no);
+    }
+  }, [status]);
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -75,6 +79,25 @@ export function DonationDialog({ open, onOpenChange }: DonationDialogProps) {
     }
   };
 
+  useEffect(() => {
+    if (customAmount) {
+      const numValue = parseInt(customAmount.replace(/\D/g, ""));
+      if (!isNaN(numValue)) setAmount(numValue);
+    }
+  }, [customAmount]);
+
+  const handleAnonimChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAnonim(e.target.checked);
+  };
+
+  const { data, isLoading, error } = useQuery<PaymentChannel[]>({
+    queryKey: ["paymentChannels"],
+    queryFn: async () => {
+      const res = await fetchPaymentChannel();
+      return res.data; // ambil array-nya saja
+    },
+  });
+
   const handlePaymentMethodClick = (methodId: string) => {
     setPaymentMethod(methodId);
     setExpandedMethod(expandedMethod === methodId ? "" : methodId);
@@ -85,10 +108,110 @@ export function DonationDialog({ open, onOpenChange }: DonationDialogProps) {
     setSelectedPaymentOption(option);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // ✅ Filter manual transfer dulu berdasar donation_payment_id
+  const bankTransfer = data?.filter((item: PaymentChannel) => item.donation_payment_id === 1) ?? [];
+
+  // ✅ Virtual Account selain yang manual
+  const virtualAccount = data?.filter((item: PaymentChannel) => item.sender_type === "virtual_account" && item.donation_payment_id !== 1) ?? [];
+
+  // ✅ E-Wallet
+  const eWallet = data?.filter((item: PaymentChannel) => item.sender_type === "wallet_account") ?? [];
+
+  const paymentMethods = [
+    {
+      id: "bank",
+      name: "Bank Transfer",
+      icon: Building2,
+      options: bankTransfer.map((b) => `${b.payment_channel_name} (Manual)`),
+    },
+    {
+      id: "va",
+      name: "Virtual Account",
+      icon: Building2,
+      options: virtualAccount.map((v) => `${v.payment_channel_name} (VA)`),
+    },
+    {
+      id: "ewallet",
+      name: "E-Wallet",
+      icon: Smartphone,
+      options: eWallet.map((e) => e.payment_channel_name),
+    },
+  ];
+
+  if (isLoading) return <p>Loading payment channels...</p>;
+  if (error) return <p className="text-red-500">Failed to load payment channels.</p>;
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (step === 1 && amount > 0 && selectedCampaign && paymentMethod && selectedPaymentOption) {
-      setStep(2);
+
+    if (!selectedPaymentOption || !amount) return;
+
+    const cleanName = selectedPaymentOption.replace(/\s*\(.*?\)\s*/g, "");
+
+    // Tentukan kategori yang dipilih dari paymentMethod
+    let selectedChannel;
+    if (paymentMethod === "bank") {
+      selectedChannel = data?.find((ch) => ch.payment_channel_name === cleanName && ch.donation_payment_id === 1);
+    } else if (paymentMethod === "va") {
+      selectedChannel = data?.find((ch) => ch.payment_channel_name === cleanName && ch.sender_type === "virtual_account");
+    } else if (paymentMethod === "ewallet") {
+      selectedChannel = data?.find((ch) => ch.payment_channel_name === cleanName && ch.sender_type === "wallet_account");
+    }
+
+    if (!selectedChannel) {
+      alert("Payment channel not found.");
+      return;
+    }
+
+    const payload = {
+      user_id: userId,
+      full_name: fullName,
+      email,
+      phone,
+      payment_channel_id: String(selectedChannel.id),
+      is_anonim: anonim,
+      items: [
+        {
+          campaign_id: 18,
+          quantity: 1,
+          price: amount,
+        },
+      ],
+    };
+
+    try {
+      let response: any;
+      // console.log("🧩 Selected Channel:", selectedChannel);
+      // console.log("sender_type:", selectedChannel.sender_type);
+      // console.log("donation_payment_id:", selectedChannel.donation_payment_id);
+
+      // Cek manual transfer dulu
+      if (selectedChannel.donation_payment_id === 1) {
+        response = await createTransactionBankTransfer(payload);
+        // console.log("✅ Bank Transfer transaction created", response);
+        setStep(2);
+      }
+      // Baru cek Flip
+      else if (selectedChannel.sender_type === "virtual_account" || selectedChannel.sender_type === "wallet_account") {
+        response = await createTransactionFlip(payload);
+        // console.log("✅ Transaction Flip created", response);
+        setStep(2);
+        if (response?.flip_response?.payment_url) {
+          setTimeout(() => {
+            window.location.href = response.flip_response.payment_url;
+          }, 2000);
+        } else {
+          console.warn("⚠️ Payment URL not found in response:", response);
+        }
+      }
+
+      // 🔹 Case 3: Fallback (jika tidak terdeteksi)
+      else {
+        console.warn("⚠️ Unknown payment type:", selectedChannel);
+      }
+    } catch (err) {
+      console.error("❌ Transaction error:", err);
+      alert("Failed to create transaction. Please try again.");
     }
   };
 
@@ -140,7 +263,7 @@ export function DonationDialog({ open, onOpenChange }: DonationDialogProps) {
 
                 <div className="relative">
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">Rp</span>
-                  <Input type="text" placeholder="Enter other amount" value={customAmount} onChange={(e) => handleCustomAmountChange(e.target.value)} className="pl-12 h-12 text-lg" />
+                  <Input type="text" placeholder="Enter other amount" value={customAmount} onChange={(e) => handleCustomAmountChange(e.target.value)} className="pl-12 h-12 text-lg text-gray-300 placeholder:text-gray-400" />
                 </div>
 
                 {amount > 0 && (
@@ -153,51 +276,44 @@ export function DonationDialog({ open, onOpenChange }: DonationDialogProps) {
                 )}
               </div>
 
-              {/* Campaign Selection */}
-              <div>
-                <Label className="text-base mb-3 block">Select Program</Label>
-                <Select value={selectedCampaign} onValueChange={setSelectedCampaign}>
-                  <SelectTrigger className="h-12">
-                    <SelectValue placeholder="Select a program to support" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {campaigns.map((campaign) => (
-                      <SelectItem key={campaign} value={campaign}>
-                        {campaign}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
               {/* Donor Information */}
               <div className="space-y-4">
-                <Label className="text-base block">Donor Information</Label>
+                <Label className="text-base block text-gray-400">Donor Information</Label>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="name" className="text-sm mb-2 block">
+                    <Label htmlFor="name" className="text-sm mb-2 block text-gray-400">
                       Full Name *
                     </Label>
-                    <Input id="name" placeholder="Enter your full name" className="h-11" required />
+                    <Input value={fullName} onChange={(e) => setFullName(e.target.value)} id="name" placeholder="Enter your full name" className="h-11 text-gray-200 placeholder:text-gray-400" required />
+                    <input id="anonim-checkbox" type="checkbox" checked={anonim} onChange={handleAnonimChange} className="checkbox" />
                   </div>
                   <div>
-                    <Label htmlFor="email" className="text-sm mb-2 block">
+                    <Label htmlFor="email" className="text-sm mb-2 block text-gray-400">
                       Email *
                     </Label>
-                    <Input id="email" type="email" placeholder="email@example.com" className="h-11" required />
+                    <Input value={email} onChange={(e) => setEmail(e.target.value)} id="email" type="email" placeholder="email@example.com" className="h-11 text-gray-200 placeholder:text-gray-400" required />
                   </div>
                 </div>
                 <div>
-                  <Label htmlFor="phone" className="text-sm mb-2 block">
+                  <Label htmlFor="phone" className="text-sm mb-2 block text-gray-400">
                     Phone Number *
                   </Label>
-                  <Input id="phone" placeholder="08xxxxxxxxxx" className="h-11" required />
+                  {/* <Input id="phone" placeholder="08xxxxxxxxxx" className="h-11 text-gray-200 placeholder:text-gray-400" required /> */}
+                  <PhoneInput
+                    placeholder="Enter phone number"
+                    international
+                    defaultCountry="ID"
+                    value={phone}
+                    onChange={(setValue) => setPhone(setValue)}
+                    className="border border-gray-200 placeholder:text-gray-400 text-gray-400 p-2 px-4 rounded-lg bg-white text-sm"
+                    required
+                  />
                 </div>
               </div>
 
               {/* Payment Method */}
               <div>
-                <Label className="text-base mb-3 block">Payment Method</Label>
+                <Label className="text-base mb-3 block text-gray-400">Payment Method</Label>
                 <div className="space-y-3">
                   {paymentMethods.map((method) => {
                     const Icon = method.icon;
@@ -220,7 +336,7 @@ export function DonationDialog({ open, onOpenChange }: DonationDialogProps) {
                         </button>
 
                         {/* Expanded Options */}
-                        {isExpanded && (
+                        {isExpanded && method.options.length > 0 && (
                           <div className="mt-2 ml-4 space-y-2 animate-in slide-in-from-top-2">
                             {method.options.map((option) => (
                               <button
@@ -236,6 +352,9 @@ export function DonationDialog({ open, onOpenChange }: DonationDialogProps) {
                             ))}
                           </div>
                         )}
+
+                        {/* Fallback kalau tidak ada channel */}
+                        {isExpanded && method.options.length === 0 && <p className="ml-4 mt-2 text-sm text-gray-400 italic">No available channels.</p>}
                       </div>
                     );
                   })}
@@ -244,7 +363,7 @@ export function DonationDialog({ open, onOpenChange }: DonationDialogProps) {
 
               {/* Submit Button */}
               <div className="pt-4 border-t">
-                <Button type="submit" disabled={!amount || !selectedCampaign || !paymentMethod || !selectedPaymentOption} className="w-full h-12 bg-[#268ece] hover:bg-[#1d7ab8] text-white text-base disabled:opacity-50">
+                <Button type="submit" disabled={!amount || !paymentMethod || !selectedPaymentOption} className="w-full h-12 bg-[#268ece] hover:bg-[#1d7ab8] text-white text-base disabled:opacity-50">
                   Continue to Payment
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
@@ -260,7 +379,7 @@ export function DonationDialog({ open, onOpenChange }: DonationDialogProps) {
                   <CheckCircle2 className="w-10 h-10 text-green-600" />
                 </div>
               </div>
-              <DialogTitle className="text-2xl text-center">Thank You!</DialogTitle>
+              <DialogTitle className="text-2xl text-center text-gray-400">Thank You!</DialogTitle>
             </DialogHeader>
 
             <div className="space-y-6 mt-4">
@@ -287,7 +406,7 @@ export function DonationDialog({ open, onOpenChange }: DonationDialogProps) {
               </div>
 
               <div className="flex gap-3">
-                <Button onClick={() => onOpenChange(false)} variant="outline" className="flex-1 h-12 border-2 border-[#268ece] text-[#268ece]">
+                <Button onClick={() => onOpenChange(false)} variant="outline" className="flex-1 h-12 bg-white border-2 border-[#268ece] text-[#268ece]">
                   Close
                 </Button>
                 <Button onClick={handleReset} className="flex-1 h-12 bg-[#268ece] hover:bg-[#1d7ab8] text-white">

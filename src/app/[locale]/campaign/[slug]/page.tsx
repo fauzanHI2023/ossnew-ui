@@ -71,7 +71,7 @@ const page = () => {
 
             {/* Right Column - Donation Card */}
             <div className="lg:col-span-1">
-              <DonationCard />
+              <DonationCard post={post} />
             </div>
           </div>
         </div>

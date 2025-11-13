@@ -5,7 +5,5 @@ export interface CartItem {
   cookies_id: number;
   campaign_id: number;
   quantity: number;
-  name: string;
   amount: number;
-  image?: string;
 }

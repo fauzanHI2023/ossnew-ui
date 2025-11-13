@@ -11,7 +11,7 @@ export const createTransactionFlip = async (data: Omit<CreateTransactionPayload,
       items: data.items.map((item) => ({
         campaign_id: item.campaign_id,
         quantity: item.quantity,
-        price: item.amount,
+        price: item.price,
       })),
     };
 
@@ -22,6 +22,7 @@ export const createTransactionFlip = async (data: Omit<CreateTransactionPayload,
     });
 
     return response.data;
+    console.log("Data sebelum dikirim ke createTransactionFlip:", JSON.stringify(data, null, 2));
   } catch (error: any) {
     console.error("Error creating transaction:", error);
     throw error.response?.data || error;
@@ -36,7 +37,7 @@ export const createTransactionBankTransfer = async (data: Omit<CreateTransaction
       items: data.items.map((item) => ({
         campaign_id: item.campaign_id,
         quantity: item.quantity,
-        price: item.amount,
+        price: item.price,
       })),
     };
 

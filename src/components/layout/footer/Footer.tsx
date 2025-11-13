@@ -33,29 +33,29 @@ export function Footer() {
             <h4 className="text-white mb-4">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#about" className="hover:text-[#268ece] transition-colors">
+                <Link href="/aboutus" className="hover:text-[#268ece] transition-colors">
                   About Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#initiatives" className="hover:text-[#268ece] transition-colors">
+                <Link href="/initiatives" className="hover:text-[#268ece] transition-colors">
                   Our Initiatives
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#campaigns" className="hover:text-[#268ece] transition-colors">
+                <Link href="/campaign" className="hover:text-[#268ece] transition-colors">
                   Campaigns
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#news" className="hover:text-[#268ece] transition-colors">
+                <Link href="/news" className="hover:text-[#268ece] transition-colors">
                   News
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#impact" className="hover:text-[#268ece] transition-colors">
+                <Link href="/report" className="hover:text-[#268ece] transition-colors">
                   Impact Report
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -65,29 +65,29 @@ export function Footer() {
             <h4 className="text-white mb-4">Get Involved</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#campaigns" className="hover:text-[#268ece] transition-colors">
+                <Link href="/campaign" className="hover:text-[#268ece] transition-colors">
                   Campaigns
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-[#268ece] transition-colors">
+                <Link href="/partnerwithus" className="hover:text-[#268ece] transition-colors">
                   Partner With Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-[#268ece] transition-colors">
+                <Link href="/rightsholders" className="hover:text-[#268ece] transition-colors">
                   Be Rights Holder
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-[#268ece] transition-colors">
+                <Link href="#" className="hover:text-[#268ece] transition-colors">
                   Volunteer
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-[#268ece] transition-colors">
+                <Link href="https://hiinstitute.or.id/" className="hover:text-[#268ece] transition-colors">
                   Human Initiative Institute
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

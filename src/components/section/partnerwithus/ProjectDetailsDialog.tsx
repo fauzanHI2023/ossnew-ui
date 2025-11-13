@@ -2,18 +2,20 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, MapPin, Target, Users, Clock, DollarSign, CheckCircle2, ArrowRight } from "lucide-react";
+import Image from "next/image";
 
 interface Project {
   id: number;
   title: string;
-  category: string;
-  description: string;
-  image: string;
-  location: string;
-  duration: string;
-  beneficiaries: string;
-  budget: string;
-  objectives: string[];
+  parent_program: string;
+  program_name: string;
+  project_description: string;
+  project_goal: string;
+  project_scope: string;
+  currency: string;
+  amount: string;
+  quantity: number;
+  files: { file_path?: string }[];
 }
 
 interface ProjectDetailsDialogProps {
@@ -28,20 +30,26 @@ export function ProjectDetailsDialog({ open, onOpenChange, project, onBookAppoin
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto p-0">
+      <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto p-0 bg-white">
         <DialogHeader className="sr-only">
           <DialogTitle>{project.title}</DialogTitle>
-          <DialogDescription>{project.description}</DialogDescription>
+          <DialogDescription>{project.project_description}</DialogDescription>
         </DialogHeader>
 
         {/* Hero Image */}
         <div className="relative h-72 overflow-hidden">
-          <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+          <Image
+            src={"https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2070"}
+            alt={project.title}
+            width={900}
+            height={600}
+            className="w-full h-full object-cover"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
 
           {/* Title Overlay */}
           <div className="absolute bottom-0 left-0 right-0 p-8">
-            <Badge className="bg-[#268ece] text-white mb-3 shadow-lg">{project.category}</Badge>
+            <Badge className="bg-[#268ece] text-white mb-3 shadow-lg">{project.parent_program}</Badge>
             <h2 className="text-3xl text-white mb-2 leading-tight">{project.title}</h2>
           </div>
 
@@ -56,7 +64,7 @@ export function ProjectDetailsDialog({ open, onOpenChange, project, onBookAppoin
         <div className="p-8 space-y-6">
           {/* Description */}
           <div>
-            <p className="text-lg text-gray-700 leading-relaxed">{project.description}</p>
+            <p className="text-lg text-gray-700 leading-relaxed">{project.project_description}</p>
           </div>
 
           {/* Key Information Grid */}
@@ -68,7 +76,7 @@ export function ProjectDetailsDialog({ open, onOpenChange, project, onBookAppoin
                 </div>
                 <div className="flex-1">
                   <div className="text-sm text-gray-500 mb-1">Location</div>
-                  <div className="text-gray-900">{project.location}</div>
+                  <div className="text-gray-900">{project.program_name}</div>
                 </div>
               </div>
             </div>
@@ -80,7 +88,7 @@ export function ProjectDetailsDialog({ open, onOpenChange, project, onBookAppoin
                 </div>
                 <div className="flex-1">
                   <div className="text-sm text-gray-500 mb-1">Duration</div>
-                  <div className="text-gray-900">{project.duration}</div>
+                  <div className="text-gray-900">{project.quantity}</div>
                 </div>
               </div>
             </div>
@@ -92,7 +100,7 @@ export function ProjectDetailsDialog({ open, onOpenChange, project, onBookAppoin
                 </div>
                 <div className="flex-1">
                   <div className="text-sm text-gray-500 mb-1">Beneficiaries</div>
-                  <div className="text-gray-900">{project.beneficiaries}</div>
+                  <div className="text-gray-900">{project.parent_program}</div>
                 </div>
               </div>
             </div>
@@ -104,7 +112,7 @@ export function ProjectDetailsDialog({ open, onOpenChange, project, onBookAppoin
                 </div>
                 <div className="flex-1">
                   <div className="text-sm text-gray-500 mb-1">Estimated Budget</div>
-                  <div className="text-gray-900">{project.budget}</div>
+                  <div className="text-gray-900">{project.amount}</div>
                 </div>
               </div>
             </div>
@@ -119,20 +127,18 @@ export function ProjectDetailsDialog({ open, onOpenChange, project, onBookAppoin
               <h3 className="text-xl text-gray-900">Project Objectives</h3>
             </div>
             <ul className="space-y-3">
-              {project.objectives.map((objective, index) => (
-                <li key={index} className="flex items-start gap-3 group">
-                  <div className="mt-0.5">
-                    <CheckCircle2 className="w-5 h-5 text-[#268ece] group-hover:scale-110 transition-transform" />
-                  </div>
-                  <span className="text-gray-700 flex-1 leading-relaxed">{objective}</span>
-                </li>
-              ))}
+              <li className="flex items-start gap-3 group">
+                <div className="mt-0.5">
+                  <CheckCircle2 className="w-5 h-5 text-[#268ece] group-hover:scale-110 transition-transform" />
+                </div>
+                <span className="text-gray-700 flex-1 leading-relaxed">{project.project_goal}</span>
+              </li>
             </ul>
           </div>
 
           {/* Call to Action */}
           <div className="flex gap-4 pt-4">
-            <Button variant="outline" className="flex-1 border-2 border-gray-200 text-gray-700 hover:bg-gray-50" onClick={() => onOpenChange(false)}>
+            <Button variant="outline" className="bg-white flex-1 border-2 border-gray-200 text-gray-700 hover:bg-gray-50" onClick={() => onOpenChange(false)}>
               Close
             </Button>
             <Button className="flex-1 bg-gradient-to-r from-[#268ece] to-[#1d7ab8] hover:from-[#1d7ab8] hover:to-[#268ece] text-white shadow-lg shadow-[#268ece]/30 group" onClick={onBookAppointment}>

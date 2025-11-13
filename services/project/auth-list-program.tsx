@@ -1,15 +1,17 @@
-import axios from 'axios';
+import axios from "axios";
 
 interface ProjectList {
-  id: string;
+  id: number;
   title: string;
+  parent_program: string;
   program_name: string;
   project_description: string;
   project_goal: string;
   project_scope: string;
   currency: string;
-  amount: number;
+  amount: string;
   quantity: number;
+  files: { file_path?: string }[];
 }
 
 export const fetchListProject = async (): Promise<ProjectList[]> => {
@@ -18,7 +20,7 @@ export const fetchListProject = async (): Promise<ProjectList[]> => {
     const response = await axios.get(apiUrl);
     return response.data.data;
   } catch (error) {
-    console.log('Error data Project', error);
+    console.log("Error data Project", error);
     return [];
   }
 };

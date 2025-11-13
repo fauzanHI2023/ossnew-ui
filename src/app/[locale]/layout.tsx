@@ -10,6 +10,7 @@ import Header from "@/components/layout/header/Header";
 import { Footer } from "@/components/layout/footer/Footer";
 import AuthProvider from "../../../context/SessionProvider";
 import { CartProvider } from "../../../context/CartContext";
+import { Toaster } from "sonner";
 
 type Props = {
   children: ReactNode;
@@ -60,9 +61,12 @@ export default async function LocaleLayout({ children, params }: Props) {
         <AuthProvider>
           <NextIntlClientProvider>
             <CartProvider>
-              <Header />
-              <QueryProvider>{children}</QueryProvider>
-              <Footer />
+              <QueryProvider>
+                <Header />
+                <Toaster />
+                {children}
+                <Footer />
+              </QueryProvider>
             </CartProvider>
           </NextIntlClientProvider>
         </AuthProvider>
