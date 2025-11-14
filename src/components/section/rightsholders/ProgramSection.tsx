@@ -2,6 +2,8 @@ import { GraduationCap, Users, CloudRain, Building } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { fetchRightholders } from "../../../../services/cphp/auth-list-rightholders";
+import { useQuery } from "@tanstack/react-query";
 
 interface Program {
   id: string;

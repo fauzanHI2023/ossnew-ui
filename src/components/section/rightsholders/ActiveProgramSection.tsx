@@ -1,81 +1,54 @@
 "use client";
+
 import { useState } from "react";
 import { Calendar, Clock, ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { fetchRightholders } from "../../../../services/cphp/auth-list-rightholders";
+import { useQuery } from "@tanstack/react-query";
+import Iframe from "react-iframe";
 
-interface ActiveProgram {
-  id: string;
-  title: string;
-  description?: string;
-  deadline: string;
-  deadlineTime: string;
-  category?: string;
-}
-
-const activePrograms: ActiveProgram[] = [
-  {
-    id: "mosque-equipment",
-    title: "Mosque Equipment & Supplies Program",
-    description: "Mosque equipment and supplies program to support religious facilities and community worship activities",
-    deadline: "31 December 2025",
-    deadlineTime: "17:00",
-    category: "Religious",
-  },
-  {
-    id: "business-empowerment",
-    title: "Business Resources & Capital Program",
-    description: "Business resource assistance by Human Initiative to help develop community enterprises",
-    deadline: "31 December 2025",
-    deadlineTime: "17:00",
-    category: "Economic",
-  },
-  {
-    id: "classroom-renovation",
-    title: "Classroom Construction / Renovation Program",
-    description: "Classroom construction and renovation program to improve education quality",
-    deadline: "31 December 2025",
-    deadlineTime: "23:55",
-    category: "Education",
-  },
-  {
-    id: "clean-water",
-    title: "Water Well Construction Program",
-    description: "Water well construction program for clean water access in communities",
-    deadline: "15 January 2026",
-    deadlineTime: "17:00",
-    category: "Infrastructure",
-  },
-  {
-    id: "scholarship",
-    title: "Education Scholarship Program",
-    deadline: "20 January 2026",
-    deadlineTime: "23:55",
-    category: "Education",
-  },
-  {
-    id: "health-facility",
-    title: "Health Center Construction Program",
-    description: "Health center construction and renovation to improve community healthcare services",
-    deadline: "28 January 2026",
-    deadlineTime: "17:00",
-    category: "Healthcare",
-  },
-];
-
-const INITIAL_DISPLAY_COUNT = 3;
+const INITIAL_DISPLAY_COUNT = 6;
 const LOAD_MORE_COUNT = 3;
 
 export function ActiveProgramsSection() {
   const [displayCount, setDisplayCount] = useState(INITIAL_DISPLAY_COUNT);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const [showIframe, setShowIframe] = useState(false);
+  const [iframeUrl, setIframeUrl] = useState("");
+  // 🚀 Fetch from API
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["rightholders"],
+    queryFn: fetchRightholders,
+  });
+
+  // fallback kalau API belum ready
+  const programs = data ?? [];
 
   const handleLoadMore = () => {
-    setDisplayCount((prev) => Math.min(prev + LOAD_MORE_COUNT, activePrograms.length));
+    setDisplayCount((prev) => Math.min(prev + LOAD_MORE_COUNT, programs.length));
   };
 
-  const visiblePrograms = activePrograms.slice(0, displayCount);
-  const hasMore = displayCount < activePrograms.length;
+  const visiblePrograms = programs.slice(0, displayCount);
+  const hasMore = displayCount < programs.length;
+
+  // Loading State
+  if (isLoading) {
+    return (
+      <section className="py-20 text-center">
+        <p className="text-gray-500">Loading programs...</p>
+      </section>
+    );
+  }
+
+  // Error State
+  if (isError) {
+    return (
+      <section className="py-20 text-center">
+        <p className="text-red-500">Failed to load programs</p>
+      </section>
+    );
+  }
 
   return (
     <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden">
@@ -98,7 +71,7 @@ export function ActiveProgramsSection() {
 
         {/* Programs Grid */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {visiblePrograms.map((program, index) => (
+          {visiblePrograms.map((program: any, index: number) => (
             <div
               key={program.id}
               onMouseEnter={() => setHoveredCard(program.id)}
@@ -111,8 +84,7 @@ export function ActiveProgramsSection() {
               {/* Gradient Background */}
               <div className="absolute inset-0 bg-gradient-to-br from-[#268ece]/5 via-[#268ece]/10 to-[#268ece]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-              {/* Content */}
-              <div className="relative p-6 flex flex-col h-full min-h-[380px]">
+              <div className="relative p-6 flex flex-col h-full min-h-[200px]">
                 {/* Category Badge */}
                 <div className="mb-4 h-6">
                   {program.category && (
@@ -123,25 +95,31 @@ export function ActiveProgramsSection() {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-xl mb-3 text-gray-900 group-hover:text-[#268ece] transition-colors duration-300 min-h-[56px]">{program.title}</h3>
+                <h3 className="text-xl mb-3 text-gray-900 group-hover:text-[#268ece] transition-colors duration-300 min-h-[56px]">{program.form_name}</h3>
 
                 {/* Description */}
-                <div className="mb-4 min-h-[48px]">{program.description && <p className="text-sm text-gray-600 line-clamp-2 group-hover:text-gray-700">{program.description}</p>}</div>
+                <div className="mb-4 min-h-[48px]">{program.form_description && <p className="text-sm text-gray-600 line-clamp-2 group-hover:text-gray-700">{program.description}</p>}</div>
 
                 {/* Deadline Section */}
                 <div className="mt-auto pt-4 border-t border-gray-100 group-hover:border-[#268ece]/20 transition-colors duration-300">
-                  <div className="flex items-center gap-2 text-sm text-gray-600 mb-2 group-hover:text-gray-900 transition-colors duration-300">
-                    <Calendar className="w-4 h-4 text-[#268ece] group-hover:scale-110 transition-transform duration-300" />
-                    <span>{program.deadline}</span>
+                  <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+                    <Calendar className="w-4 h-4 text-[#268ece]" />
+                    <span>{program.end_datetime || "No deadline"}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-600 group-hover:text-gray-900 transition-colors duration-300">
-                    <Clock className="w-4 h-4 text-[#268ece] group-hover:scale-110 transition-transform duration-300" />
-                    <span>{program.deadlineTime}</span>
-                  </div>
+                  {/* <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <Clock className="w-4 h-4 text-[#268ece]" />
+                    <span>{program.deadlineTime || program.deadline_time || "—"}</span>
+                  </div> */}
                 </div>
 
                 {/* Apply Button */}
-                <Button className="w-full mt-6 bg-gradient-to-r from-[#268ece] to-[#1d7ab8] hover:from-[#1d7ab8] hover:to-[#268ece] text-white shadow-lg shadow-[#268ece]/30 group-hover:shadow-xl group-hover:shadow-[#268ece]/50 transition-all duration-300 group-hover:scale-105">
+                <Button
+                  onClick={() => {
+                    setIframeUrl(program.link);
+                    setShowIframe(true);
+                  }}
+                  className="w-full mt-6 bg-gradient-to-r from-[#268ece] to-[#1d7ab8] hover:from-[#1d7ab8] hover:to-[#268ece] text-white shadow-lg shadow-[#268ece]/30 group-hover:shadow-xl group-hover:shadow-[#268ece]/50 transition-all duration-300 group-hover:scale-105"
+                >
                   <span>Apply Now</span>
                   <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
                 </Button>
@@ -172,21 +150,32 @@ export function ActiveProgramsSection() {
           </div>
         )}
 
+        {showIframe && iframeUrl && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-[100]">
+            <div className="relative bg-white dark:bg-slate-700 rounded-lg w-full sm:w-3/4 h-full">
+              <button onClick={() => setShowIframe(false)} className="absolute top-3 right-3 text-white bg-sky-500 hover:bg-sky-700 rounded-full w-8 h-8">
+                ✕
+              </button>
+              <Iframe url={iframeUrl} width="100%" height="100%" allowFullScreen />
+            </div>
+          </div>
+        )}
+
         {/* Bottom Stats */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
-          <div className="text-center p-4 rounded-xl bg-gradient-to-br from-[#268ece]/5 to-transparent hover:from-[#268ece]/10 hover:to-transparent transition-all duration-300">
-            <div className="text-2xl text-[#268ece] mb-1">{activePrograms.length}</div>
+          <div className="text-center p-4 rounded-xl bg-gradient-to-br from-[#268ece]/5 to-transparent hover:from-[#268ece]/10 transition-all duration-300">
+            <div className="text-2xl text-[#268ece] mb-1">{programs.length}</div>
             <div className="text-sm text-gray-600">Active Programs</div>
           </div>
-          <div className="text-center p-4 rounded-xl bg-gradient-to-br from-[#268ece]/5 to-transparent hover:from-[#268ece]/10 hover:to-transparent transition-all duration-300">
+          <div className="text-center p-4 rounded-xl bg-gradient-to-br from-[#268ece]/5 to-transparent hover:from-[#268ece]/10 transition-all duration-300">
             <div className="text-2xl text-[#268ece] mb-1">24/7</div>
             <div className="text-sm text-gray-600">Support Available</div>
           </div>
-          <div className="text-center p-4 rounded-xl bg-gradient-to-br from-[#268ece]/5 to-transparent hover:from-[#268ece]/10 hover:to-transparent transition-all duration-300">
+          <div className="text-center p-4 rounded-xl bg-gradient-to-br from-[#268ece]/5 to-transparent hover:from-[#268ece]/10 transition-all duration-300">
             <div className="text-2xl text-[#268ece] mb-1">100%</div>
             <div className="text-sm text-gray-600">Transparent</div>
           </div>
-          <div className="text-center p-4 rounded-xl bg-gradient-to-br from-[#268ece]/5 to-transparent hover:from-[#268ece]/10 hover:to-transparent transition-all duration-300">
+          <div className="text-center p-4 rounded-xl bg-gradient-to-br from-[#268ece]/5 to-transparent hover:from-[#268ece]/10 transition-all duration-300">
             <div className="text-2xl text-[#268ece] mb-1">Fast</div>
             <div className="text-sm text-gray-600">Application Process</div>
           </div>

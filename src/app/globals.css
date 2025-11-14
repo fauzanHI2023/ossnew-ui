@@ -67,3 +67,7 @@ li,
 a {
   font-family: var(--font-body);
 }
+
+.rdp-weekday {
+  color: rgb(22, 63, 101);
+}

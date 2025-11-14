@@ -57,7 +57,7 @@ export default function MapWithSearch({ onSelect }: { onSelect?: (place: PlaceRe
 
   return (
     <div className="space-y-4">
-      <input ref={inputRef} placeholder="Cari Lokasi Pertemuan......" className="w-full p-2 border rounded" />
+      <input ref={inputRef} placeholder="Cari Lokasi Pertemuan......" className="w-full p-2 px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#268ece] focus:outline-none placeholder:text-gray-300 text-gray-400" />
       <GoogleMap mapContainerStyle={mapContainerStyle} center={selected || center} zoom={14} onLoad={onMapLoad}>
         {selected && <Marker position={{ lat: selected.lat, lng: selected.lng }} />}
       </GoogleMap>

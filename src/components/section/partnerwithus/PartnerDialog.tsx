@@ -95,14 +95,26 @@ export function PartnerDialog({ open, onOpenChange, projectId }: PartnerDialogPr
               <Label htmlFor="name" className="text-gray-900">
                 Name *
               </Label>
-              <Input id="name" value={form.name} onChange={handleChange} placeholder="Enter your name" className="border-gray-200 focus:border-[#268ece] h-12" />
+              <input
+                id="name"
+                value={form.name}
+                onChange={handleChange}
+                placeholder="Enter your name"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#268ece] focus:outline-none placeholder:text-gray-300 text-gray-400"
+              />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="email" className="text-gray-900">
                 Email *
               </Label>
-              <Input id="email" value={form.email} onChange={handleChange} placeholder="yourname@company.com" className="border-gray-200 focus:border-[#268ece] h-12" />
+              <input
+                id="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="yourname@company.com"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#268ece] focus:outline-none placeholder:text-gray-300 text-gray-400"
+              />
             </div>
           </div>
 
@@ -118,7 +130,7 @@ export function PartnerDialog({ open, onOpenChange, projectId }: PartnerDialogPr
                   <Label className="text-gray-900 mb-1 block">Start Time *</Label>
                   <div className="flex items-center gap-2 border border-gray-200 rounded-lg px-3 h-12">
                     <Clock className="w-4 h-4 text-gray-400" />
-                    <input type="time" id="startTime" value={form.startTime} onChange={handleChange} className="flex-1 outline-none bg-transparent" />
+                    <input type="time" id="startTime" value={form.startTime} onChange={handleChange} className="flex-1 px-4 py-3 rounded-xl focus:border-[#268ece] focus:outline-none placeholder:text-gray-300 text-gray-400" />
                   </div>
                 </div>
 
@@ -126,7 +138,7 @@ export function PartnerDialog({ open, onOpenChange, projectId }: PartnerDialogPr
                   <Label className="text-gray-900 mb-1 block">End Time *</Label>
                   <div className="flex items-center gap-2 border border-gray-200 rounded-lg px-3 h-12">
                     <Clock className="w-4 h-4 text-gray-400" />
-                    <input type="time" id="endTime" value={form.endTime} onChange={handleChange} className="flex-1 outline-none bg-transparent" />
+                    <input type="time" id="endTime" value={form.endTime} onChange={handleChange} className="flex-1 px-4 py-3 rounded-xl focus:border-[#268ece] focus:outline-none placeholder:text-gray-300 text-gray-400" />
                   </div>
                 </div>
               </div>
@@ -216,7 +228,7 @@ export function PartnerDialog({ open, onOpenChange, projectId }: PartnerDialogPr
               value={form.notes}
               onChange={handleChange}
               placeholder="Tell us about your CSR interests..."
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#268ece] focus:outline-none resize-none"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#268ece] focus:outline-none resize-none text-gray-400"
             />
           </div>
 
