@@ -7,7 +7,7 @@ import LocaleSwitcher from "@/components/utility/LocaleSwitcher";
 import { url } from "inspector";
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
-import { LoginDialog } from "./LoginDialog";
+import { LoginDialog } from "./LoginDialogNew";
 import { DonationDialog } from "./DonationDialog";
 import { Cart } from "./Cart";
 
@@ -93,7 +93,7 @@ export function TopHeader({ onMenuClick, onCartHover }: TopHeaderProps) {
       <div className="absolute top-0 right-1/4 w-96 h-24 bg-[#3da9f5]/5 blur-3xl" />
 
       <div className="relative z-10 px-4 md:px-8 lg:px-12">
-        <div className="grid grid-cols-3 items-center h-16 md:h-20 gap-4">
+        <div className="md:grid md:grid-cols-3 flex items-center justify-between h-16 md:h-20 gap-4">
           {/* flex items-center justify-between h-16 md:h-20 */}
           {/* Logo Section - Enhanced */}
           <div className="flex items-center gap-3 md:gap-4">
@@ -203,57 +203,24 @@ export function TopHeader({ onMenuClick, onCartHover }: TopHeaderProps) {
             <Cart />
 
             {/* Language Selector with Dropdown */}
-            <div className="hidden relative" onMouseEnter={() => setIsLanguageOpen(true)} onMouseLeave={() => setIsLanguageOpen(false)}>
-              <Button variant="ghost" className="flex relative rounded-xl hover:bg-[#268ece]/5 text-[#7a99b3] hover:text-[#268ece] transition-all duration-300 group h-9 md:h-11 px-2 md:px-3 gap-1 md:gap-2">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#268ece]/10 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <Languages className="w-4 h-4 md:w-5 md:h-5 relative z-10" />
-                <span className="hidden md:inline text-sm relative z-10">{selectedLanguage}</span>
-                <ChevronDown className={`w-3 h-3 md:w-4 md:h-4 relative z-10 transition-transform duration-200 ${isLanguageOpen ? "rotate-180" : ""}`} />
-              </Button>
-
+            <div className="hidden md:block relative" onMouseEnter={() => setIsLanguageOpen(true)} onMouseLeave={() => setIsLanguageOpen(false)}>
               {/* Dropdown Menu */}
-              <div className={`absolute right-0 top-full transition-all duration-200 ease-out ${isLanguageOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-1 pointer-events-none"}`} style={{ zIndex: 150 }}>
-                <div className="w-48 bg-white/95 backdrop-blur-2xl border-2 border-[#268ece]/20 shadow-2xl rounded-2xl p-2 overflow-hidden">
-                  {/* Decorative Top Border */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#268ece] via-[#3da9f5] to-[#17a2b8]" />
-
-                  <div className="pt-2 space-y-1">
-                    {languages.map((lang) => (
-                      <button
-                        key={lang.id}
-                        onClick={() => {
-                          setSelectedLanguage(lang.label);
-                          setIsLanguageOpen(false);
-                        }}
-                        className={`w-full rounded-xl px-4 py-3 cursor-pointer transition-all duration-300 relative overflow-hidden group text-left ${selectedLanguage === lang.label ? "text-white" : "hover:bg-[#268ece]/5"}`}
-                      >
-                        {selectedLanguage === lang.label && <div className="absolute inset-0 bg-gradient-to-r from-[#268ece] to-[#3da9f5]" />}
-                        <span className="relative z-10 flex items-center gap-3">
-                          <span className="text-xl">{lang.flag}</span>
-                          <span className={selectedLanguage === lang.label ? "text-white" : "text-[#0a2540]"}>{lang.label}</span>
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
+              <LocaleSwitcher />
             </div>
-
-            <LocaleSwitcher />
 
             {/* Divider - Hidden on mobile */}
             <div className="hidden lg:block w-px h-8 bg-gradient-to-b from-transparent via-[#d1e7f5] to-transparent" />
 
             {/* Login */}
             {session ? (
-              <div>
-                <Button variant="ghost" className="gap-2 px-3 md:px-4 py-2 h-auto rounded-xl hover:bg-[#268ece]/5 transition-all duration-300 group">
+              <div className="hidden md:block">
+                <Link href={"/dashboard"} className="gap-2 px-3 md:px-4 py-2 h-auto rounded-xl hover:bg-[#268ece]/5 transition-all duration-300 group">
                   <span className="text-sm text-[#0a2540]">{user?.full_name}</span>
-                  <ChevronDown className="w-4 h-4 text-[#7a99b3] group-hover:text-[#268ece] transition-colors duration-300" />
-                </Button>
+                  {/* <ChevronDown className="w-4 h-4 text-[#7a99b3] group-hover:text-[#268ece] transition-colors duration-300" /> */}
+                </Link>
               </div>
             ) : (
-              <div>
+              <div className="hidden md:block">
                 <Button
                   className="bg-gradient-to-r from-[#268ece] to-[#3da9f5] text-white hover:shadow-xl hover:shadow-[#268ece]/40 rounded-xl px-6 py-5 gap-2 transition-all duration-300 group hover:scale-105"
                   onClick={() => setLoginDialogOpen(true)}

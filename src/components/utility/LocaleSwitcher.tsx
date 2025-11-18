@@ -30,7 +30,7 @@ export default function LocaleSwitcher() {
   };
 
   return (
-    <div className="relative" onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
+    <div className="relative hidden md:block" onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
       {/* Tombol utama */}
       <Button variant="ghost" disabled={isPending} className="flex items-center rounded-xl hover:bg-[#268ece]/5 text-[#7a99b3] hover:text-[#268ece] transition-all duration-300 h-9 md:h-11 px-2 md:px-3 gap-2">
         <span className="">{locale}</span>

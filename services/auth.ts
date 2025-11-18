@@ -4,6 +4,13 @@ import GoogleProvider from "next-auth/providers/google";
 import AzureADProvider from "next-auth/providers/azure-ad";
 import AppleProvider from "next-auth/providers/apple";
 
+interface DonorData {
+  id: string;
+  birth_date: string;
+  country_id?: number;
+  // tambah field lain nanti bisa
+}
+
 declare module "next-auth" {
   interface User {
     guid: string;
@@ -25,8 +32,17 @@ declare module "next-auth" {
     deleted_by: number;
     deleted_stamp: string;
     _history: string;
-    phpDonorData?: any[];
+
+    phpDonorData?: DonorData[];
     contactInformation: any[];
+    birth_date?: string;
+    religion?: string;
+    blood_type?: string;
+    phones?: any[];
+  }
+
+  interface Session {
+    user: User; // ← FIX PENTING!!!
   }
 }
 

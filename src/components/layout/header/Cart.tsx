@@ -66,7 +66,7 @@ export function Cart({ onCartHover }: TopHeaderProps) {
 
   return (
     <div
-      className="relative"
+      className="relative hidden md:block"
       onMouseEnter={() => {
         setIsCartHovered(true);
         onCartHover?.(true);

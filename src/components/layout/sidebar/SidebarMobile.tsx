@@ -21,13 +21,13 @@ export function Sidebar({ activeMenu, setActiveMenu, isCollapsed, setIsCollapsed
   const [selectedLanguage, setSelectedLanguage] = useState("Indonesia");
 
   const mainMenuItems = [
-    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, url: "/dashboard" },
-    { id: "my-account", label: "My Account", icon: User, url: "/dashboard/myaccount" },
+    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { id: "my-account", label: "My Account", icon: User },
   ];
 
   const donationMenuItems = [
-    { id: "qurban-donation", label: "Qurban Donation", parentId: "donation", url: "/dashboard/donation/qurbandonation" },
-    { id: "qurban-history", label: "Donation History", parentId: "donation", url: "/dashboard/donation/donationhistory" },
+    { id: "qurban-donation", label: "Qurban Donation", parentId: "donation" },
+    { id: "qurban-history", label: "Qurban History", parentId: "donation" },
   ];
 
   const otherMenuItems = [
@@ -66,7 +66,7 @@ export function Sidebar({ activeMenu, setActiveMenu, isCollapsed, setIsCollapsed
 
   // Reusable Sidebar Content Component
   const SidebarContent = ({ isMobile = false }: { isMobile?: boolean }) => (
-    <div className="h-full bg-white/95 backdrop-blur-2xl rounded-none lg:rounded-3xl shadow-2xl shadow-[#268ece]/10 border-0 lg:border border-[#268ece]/10 flex flex-col relative overflow-hidden md:block">
+    <div className="h-full bg-white/95 backdrop-blur-2xl rounded-none lg:rounded-3xl shadow-2xl shadow-[#268ece]/10 border-0 lg:border border-[#268ece]/10 flex flex-col relative overflow-hidden md:hidden">
       {/* Animated Decorative Elements */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-[#268ece]/5 rounded-full blur-3xl animate-pulse" style={{ animationDuration: "8s" }} />
       <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#3da9f5]/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "2s", animationDuration: "10s" }} />
@@ -213,9 +213,8 @@ export function Sidebar({ activeMenu, setActiveMenu, isCollapsed, setIsCollapsed
                     const isActive = activeMenu === item.id;
 
                     return (
-                      <Link
+                      <button
                         key={item.id}
-                        href={item.url}
                         onClick={() => {
                           setActiveMenu(item.id);
                           if (isMobile) setIsMobileMenuOpen(false);
@@ -230,7 +229,7 @@ export function Sidebar({ activeMenu, setActiveMenu, isCollapsed, setIsCollapsed
                         </div>
                         <span className="flex-1 text-left relative z-10">{item.label}</span>
                         {isActive && <ChevronRight className="w-4 h-4 text-white animate-pulse relative z-10" />}
-                      </Link>
+                      </button>
                     );
                   })}
 
@@ -258,9 +257,8 @@ export function Sidebar({ activeMenu, setActiveMenu, isCollapsed, setIsCollapsed
                         {donationMenuItems.map((subItem) => {
                           const isActive = activeMenu === subItem.id;
                           return (
-                            <Link
+                            <button
                               key={subItem.id}
-                              href={subItem.url}
                               onClick={() => {
                                 setActiveMenu(subItem.id);
                                 if (isMobile) setIsMobileMenuOpen(false);
@@ -271,7 +269,7 @@ export function Sidebar({ activeMenu, setActiveMenu, isCollapsed, setIsCollapsed
                             >
                               <div className={`w-1.5 h-1.5 rounded-full ${isActive ? "bg-[#268ece]" : "bg-[#7a99b3]"}`} />
                               <span className="text-sm">{subItem.label}</span>
-                            </Link>
+                            </button>
                           );
                         })}
                       </div>
@@ -387,7 +385,7 @@ export function Sidebar({ activeMenu, setActiveMenu, isCollapsed, setIsCollapsed
 
       {/* Desktop Sidebar - Floating */}
       <div className="hidden lg:block relative">
-        <div className={`sticky left-12 top-24 bottom-12 z-40 transition-all duration-500 mb-[6rem] ${isCollapsed ? "w-20" : "w-80"}`}>
+        <div className={`sticky left-12 top-24 bottom-12 z-40 transition-all duration-500 ${isCollapsed ? "w-20" : "w-80"}`}>
           <SidebarContent isMobile={false} />
         </div>
 
