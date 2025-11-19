@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { User, Lock, Key, Shield, Info, Eye, EyeOff } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { useUpdatePassword } from "../../../../../hooks/useUpdatePassword";
 
 export function EditAccountTab() {
   const { data: session } = useSession();
@@ -13,6 +14,20 @@ export function EditAccountTab() {
   const [showPassword, setShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const { mutate } = useUpdatePassword(); // ← WAJIB ADA
+
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleUpdatePassword = () => {
+    mutate(
+      { newPassword, confirmPassword },
+      {
+        onSuccess: () => alert("Password berhasil diperbarui!"),
+        onError: (err: any) => alert(err.message),
+      }
+    );
+  };
 
   return (
     <div className="space-y-6">
@@ -95,6 +110,13 @@ export function EditAccountTab() {
         </Card>
       </div>
 
+      <div className="flex justify-end">
+        <Button className="bg-gradient-to-r from-[#268ece] to-[#3da9f5] text-white hover:shadow-2xl hover:shadow-[#268ece]/50 rounded-2xl px-10 py-7 gap-3 transition-all duration-300 hover:scale-105 group">
+          <User className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
+          <span className="text-base">Update Username</span>
+        </Button>
+      </div>
+
       {/* Change Password Section */}
       <Card className="border-0 bg-white shadow-2xl shadow-[#268ece]/10 overflow-hidden group hover:shadow-3xl hover:shadow-[#268ece]/20 transition-all duration-500">
         <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#268ece] via-[#3da9f5] to-[#17a2b8]" />
@@ -119,6 +141,8 @@ export function EditAccountTab() {
                 <Input
                   id="new-password"
                   type={showNewPassword ? "text" : "password"}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="Enter new password"
                   className="h-14 border-2 border-[#268ece]/10 focus:border-[#268ece] rounded-xl transition-all duration-300 bg-white/50 backdrop-blur-sm group-hover/input:bg-white pr-12"
                 />
@@ -137,6 +161,8 @@ export function EditAccountTab() {
                 <Input
                   id="confirm-password"
                   type={showConfirmPassword ? "text" : "password"}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Confirm new password"
                   className="h-14 border-2 border-[#268ece]/10 focus:border-[#268ece] rounded-xl transition-all duration-300 bg-white/50 backdrop-blur-sm group-hover/input:bg-white pr-12"
                 />
@@ -179,9 +205,9 @@ export function EditAccountTab() {
 
       {/* Save Button */}
       <div className="flex justify-end">
-        <Button className="bg-gradient-to-r from-[#268ece] to-[#3da9f5] text-white hover:shadow-2xl hover:shadow-[#268ece]/50 rounded-2xl px-10 py-7 gap-3 transition-all duration-300 hover:scale-105 group">
+        <Button onClick={handleUpdatePassword} className="bg-gradient-to-r from-[#268ece] to-[#3da9f5] text-white hover:shadow-2xl hover:shadow-[#268ece]/50 rounded-2xl px-10 py-7 gap-3 transition-all duration-300 hover:scale-105 group">
           <Shield className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
-          <span className="text-base">Update Security</span>
+          <span className="text-base">Update Password</span>
         </Button>
       </div>
     </div>

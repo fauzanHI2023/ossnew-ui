@@ -11,28 +11,30 @@ interface FilterRightholder {
   created_at: string;
 }
 
-const statusMapping: Record<number, string> = {
-  9: "New",
-  10: "Verified",
-  11: "Revision",
-  12: "Rejected",
-  13: "Proposed",
-  14: "Donated",
+const statusMapping: Record<string, number> = {
+  New: 9,
+  Verified: 10,
+  Revision: 11,
+  Rejected: 12,
+  Proposed: 13,
+  Donated: 14,
 };
 
-export const fetchFilterRightholders = async (status: number, userId: string): Promise<FilterRightholder[]> => {
-  if (!statusMapping[status]) {
-    console.error("Invalid status provided");
-    return [];
+export const fetchFilterRightholders = async (status: string | undefined, userId: string): Promise<FilterRightholder[]> => {
+  const baseUrl = `${process.env.NEXT_PUBLIC_API_BACKEND_TWO}/api/cphp/application-list`;
+
+  const params: any = { user_id: userId };
+
+  // Jika status bukan All, ubah ke nomor
+  if (status && status !== "All") {
+    params.status = statusMapping[status];
   }
 
-  const apiUrl = `${process.env.NEXT_PUBLIC_API_BACKEND_TWO}/api/cphp/application-list?status=${status}&user_id=${userId}`;
-
   try {
-    const response = await axios.get(apiUrl);
+    const response = await axios.get(baseUrl, { params });
     return response.data.success ? response.data.data : [];
   } catch (error) {
-    console.error("Error fetching campaign", error);
+    console.error("Error fetching applications", error);
     return [];
   }
 };

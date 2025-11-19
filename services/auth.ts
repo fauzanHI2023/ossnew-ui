@@ -35,6 +35,7 @@ declare module "next-auth" {
 
     phpDonorData?: DonorData[];
     contactInformation: any[];
+    address: string;
     birth_date?: string;
     religion?: string;
     blood_type?: string;
@@ -126,6 +127,10 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async signIn({ account, profile, user }): Promise<boolean> {
+      if (account?.provider === "credentials") {
+        return true;
+      }
+
       if (!account || !profile) return false;
       if (account.provider === "google" || account.provider === "azure-ad") {
         const url = account.provider === "google" ? `${process.env.NEXT_PUBLIC_BASE_API_URL}/login-api/get-logged-in-google` : `${process.env.NEXT_PUBLIC_BASE_API_URL}/login-api/get-logged-in-office`;

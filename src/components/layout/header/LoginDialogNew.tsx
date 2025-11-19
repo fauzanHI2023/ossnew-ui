@@ -6,6 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { User, Mail, Lock, Eye, EyeOff, Loader2, Heart } from "lucide-react";
 import { useSession, signIn } from "next-auth/react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface LoginDialogProps {
   open: boolean;
@@ -13,6 +15,7 @@ interface LoginDialogProps {
 }
 
 export function LoginDialog({ open, onOpenChange }: LoginDialogProps) {
+  const router = useRouter();
   const { data: session } = useSession();
   const callbackUrl = "/dashboard";
   const user: any = session?.user;
@@ -22,17 +25,28 @@ export function LoginDialog({ open, onOpenChange }: LoginDialogProps) {
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const [showFullLoading, setShowFullLoading] = useState(false);
   const [loadingProvider, setLoadingProvider] = useState("");
+  const [formData, setFormData] = useState({ username: "", password: "" });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    setIsLoading(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    const { username, password } = formData;
 
-    // Handle login logic here
-    console.log("Login submitted");
-    setIsLoading(false);
+    try {
+      const res = await signIn("credentials", {
+        redirect: false,
+        usernameOrEmail: username,
+        password: password,
+      });
+      if (!res?.error) {
+        toast("Successful Login");
+        router.push(callbackUrl);
+      } else {
+        toast("Check Username/Email or Password");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleLoginGoogle = async (provider: string) => {
@@ -80,6 +94,14 @@ export function LoginDialog({ open, onOpenChange }: LoginDialogProps) {
     setIsButtonLoading(false);
     setShowFullLoading(false);
     setLoadingProvider("");
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [id]: value,
+    }));
   };
 
   return (
@@ -264,11 +286,11 @@ export function LoginDialog({ open, onOpenChange }: LoginDialogProps) {
 
                 <div>
                   <Label htmlFor="email" className="text-sm mb-2 block text-gray-600">
-                    Email Address
+                    Username or Email
                   </Label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                    <Input id="email" type="email" placeholder="Enter your email" className="pl-10 h-11" required />
+                    <Input id="username" name="username" value={formData.username} onChange={handleChange} type="text" placeholder="Enter your email" className="pl-10 h-11" required />
                   </div>
                 </div>
 
@@ -278,7 +300,7 @@ export function LoginDialog({ open, onOpenChange }: LoginDialogProps) {
                   </Label>
                   <div className="relative">
                     <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                    <Input id="password" type={showPassword ? "text" : "password"} placeholder="Enter your password" className="pl-10 pr-10 h-11" required />
+                    <Input id="password" name="password" value={formData.password} onChange={handleChange} type={showPassword ? "text" : "password"} placeholder="Enter your password" className="pl-10 pr-10 h-11" required />
                     <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                       {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                     </button>

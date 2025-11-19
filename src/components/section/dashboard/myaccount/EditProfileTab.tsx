@@ -252,11 +252,11 @@ export function EditProfileTab() {
               <MapPin className="w-4 h-4 text-[#268ece]" />
               Alamat Lengkap
             </Label>
-            <Textarea
+            <textarea
               id="address"
               placeholder="Masukkan alamat lengkap Anda..."
-              defaultValue="Jl. Contoh No. 123, RT 001/RW 002, Kelurahan Contoh, Kecamatan Contoh, Jakarta Selatan, DKI Jakarta 12345"
-              className="min-h-[120px] border-2 border-[#268ece]/10 focus:border-[#268ece] rounded-xl transition-all duration-300 resize-none bg-white/50 backdrop-blur-sm group-hover/input:bg-white"
+              defaultValue={user?.address ?? ""}
+              className="min-h-[120px] border-2 border-[#268ece]/10 focus:border-[#268ece] rounded-xl transition-all duration-300 resize-none bg-white/50 backdrop-blur-sm group-hover/input:bg-white text-gray-600 w-full px-4 py-4"
             />
             <p className="text-xs text-[#7a99b3] mt-2">Include street name, house number, RT/RW, kelurahan, kecamatan, city, and postal code</p>
           </div>
