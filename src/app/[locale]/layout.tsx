@@ -14,7 +14,7 @@ import { Toaster } from "sonner";
 
 type Props = {
   children: ReactNode;
-  params: Promise<{ locale: Locale }>;
+  params: { locale: Locale };
 };
 
 const quattrocento = Ubuntu({
@@ -35,9 +35,8 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata(props: Omit<Props, "children">) {
-  const { locale } = await props.params;
-
+export async function generateMetadata({ params }: { params: { locale: Locale } }) {
+  const { locale } = params;
   const t = await getTranslations({ locale, namespace: "LocaleLayout" });
 
   return {
@@ -46,8 +45,8 @@ export async function generateMetadata(props: Omit<Props, "children">) {
 }
 
 export default async function LocaleLayout({ children, params }: Props) {
-  // Ensure that the incoming `locale` is valid
-  const { locale } = await params;
+  const { locale } = params;
+
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }

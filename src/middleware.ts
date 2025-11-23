@@ -3,14 +3,10 @@ import { withAuth } from "next-auth/middleware";
 import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
 
+// Middleware i18n HARUS pertama
 const intlMiddleware = createMiddleware(routing);
 
-// Cek apakah path adalah /dashboard atau /{locale}/dashboard
-const isDashboardPath = (pathname: string) => {
-  const dashboardRegex = new RegExp(`^(/(${routing.locales.join("|")}))?/dashboard(/.*)?$`, "i");
-  return dashboardRegex.test(pathname);
-};
-
+// Auth middleware HARUS memanggil intl DI DALAM dengan urutan yang benar
 const authMiddleware = withAuth((req) => intlMiddleware(req), {
   callbacks: {
     authorized: ({ token }) => token != null,
@@ -20,12 +16,17 @@ const authMiddleware = withAuth((req) => intlMiddleware(req), {
   },
 });
 
+const isDashboardPath = (pathname: string) => {
+  const dashboardRegex = new RegExp(`^(/(${routing.locales.join("|")}))?/dashboard(/.*)?$`, "i");
+  return dashboardRegex.test(pathname);
+};
+
 export default function middleware(req: NextRequest) {
   if (isDashboardPath(req.nextUrl.pathname)) {
     return (authMiddleware as any)(req);
-  } else {
-    return intlMiddleware(req);
   }
+
+  return intlMiddleware(req);
 }
 
 export const config = {

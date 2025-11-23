@@ -9,6 +9,15 @@ interface HeroSectionProps {
   post: News;
 }
 
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+};
+
 export function HeroSection({ post }: HeroSectionProps) {
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -42,8 +51,8 @@ export function HeroSection({ post }: HeroSectionProps) {
         {/* Enhanced Meta Info */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="flex flex-wrap items-center gap-6 mb-10">
           {[
-            { icon: Calendar, label: post.post_date, color: "text-purple-600" },
-            { icon: Clock, label: post.post_date, color: "text-blue-600" },
+            { icon: Calendar, label: `${formatDate(post.post_date)}`, color: "text-purple-600" },
+            { icon: Clock, label: `${formatDate(post.post_date)}`, color: "text-blue-600" },
             { icon: Eye, label: `${post.post_date.toLocaleString()} views`, color: "text-green-600" },
             { icon: TrendingUp, label: "Trending", color: "text-orange-600" },
           ].map((item, index) => (
