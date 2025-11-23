@@ -10,7 +10,7 @@ import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchListAppointmentbyUser } from "../../../../../services/project/auth-list-appointment-by-user";
 import { fetchProgramFollowedByGuid } from "../../../../../services/project/auth-list-program-followed";
-import { Appointment } from "@/app/types/appointment";
+import { Appointment } from "../../../../../utils/types/appointment";
 
 interface Project {
   id: number;

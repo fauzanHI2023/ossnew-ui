@@ -1,4 +1,4 @@
-import type { InitiativeDetail } from "@/app/types/initiatives";
+import type { InitiativeDetail } from "../../../../utils/types/initiatives";
 
 interface Props {
   data: InitiativeDetail;

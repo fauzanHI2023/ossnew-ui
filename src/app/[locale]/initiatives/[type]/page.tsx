@@ -1,6 +1,6 @@
 import { fetchInitiativeByType } from "../../../../../hooks/useInitiativeDetail";
 import InitiativeDetail from "@/components/section/initiativesdetail/Detail";
-import { InitiativeType } from "@/app/types/initiatives";
+import { InitiativeType } from "../../../../../utils/types/initiatives";
 import { notFound } from "next/navigation";
 import { Hero } from "@/components/section/initiativesdetail/Hero";
 import { Programs } from "@/components/section/initiativesdetail/Programs";

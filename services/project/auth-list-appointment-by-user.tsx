@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Appointment } from "@/app/types/appointment";
+import { Appointment } from "../../utils/types/appointment";
 
 export const fetchListAppointmentbyUser = async (userId: string): Promise<Appointment[]> => {
   try {

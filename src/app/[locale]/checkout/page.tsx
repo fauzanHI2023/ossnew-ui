@@ -10,7 +10,7 @@ import { createTransactionBankTransfer } from "../../../../services/donation/tra
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useSession } from "next-auth/react";
-import { User } from "@/app/types/user";
+import { User } from "../../../../utils/types/user";
 import Cookies from "js-cookie";
 import { Button } from "@/components/ui/button";
 import { fetchDeleteCart } from "../../../../services/donation/transaction/auth-delete-cart";

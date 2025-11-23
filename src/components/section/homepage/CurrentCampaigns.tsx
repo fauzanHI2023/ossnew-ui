@@ -10,7 +10,7 @@ import { useState, useRef, useEffect } from "react";
 import { SectionTitle } from "@/components/utility/SectionTitle";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCampaign } from "../../../../services/donation/campaign/auth-campaign";
-import { Campaign } from "@/app/types/campaign";
+import { Campaign } from "../../../../utils/types/campaign";
 
 function formatCurrency(amount: number) {
   return new Intl.NumberFormat("id-ID", {

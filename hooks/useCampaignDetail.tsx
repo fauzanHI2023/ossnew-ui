@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchCampaign } from "../services/donation/campaign/auth-campaign";
-import { Campaign } from "@/app/types/campaign";
+import { Campaign } from "../utils/types/campaign";
 
 export function useCampaignDetail(slug?: string) {
   const { data, isLoading, isError } = useQuery({

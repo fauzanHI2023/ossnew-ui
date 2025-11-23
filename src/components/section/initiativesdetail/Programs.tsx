@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
-import type { InitiativeDetail } from "@/app/types/initiatives";
+import type { InitiativeDetail } from "../../../../utils/types/initiatives";
 
 interface Props {
   data: InitiativeDetail;

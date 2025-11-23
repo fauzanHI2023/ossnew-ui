@@ -1,5 +1,5 @@
 import axios from "axios";
-import { News } from "@/app/types/news";
+import { News } from "../../utils/types/news";
 
 export const fetchNews = async (): Promise<News[]> => {
   const apiUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}/publikasi/posts-api`;

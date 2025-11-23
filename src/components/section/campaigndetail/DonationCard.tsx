@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useCart } from "../../../../context/CartContext";
 import { useRouter } from "next/navigation";
 import { fetchdonorList } from "../../../../services/donation/campaign/auth-donorlist-bycampaign";
-import { Campaign } from "@/app/types/campaign";
+import { Campaign } from "../../../../utils/types/campaign";
 import PopupNotif from "@/components/utility/PopupNotif";
 import { inputCart } from "../../../../services/donation/transaction/auth-cart";
 

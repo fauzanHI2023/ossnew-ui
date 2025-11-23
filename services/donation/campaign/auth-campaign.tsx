@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Campaign } from "@/app/types/campaign";
+import { Campaign } from "../../../utils/types/campaign";
 const apiUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}/donation/campaign-api`;
 const apiProgramUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}/donation/campaign-api/get-program`;
 const apiKey = process.env.NEXT_PUBLIC_API_KEY_CAMPAIGN || "";

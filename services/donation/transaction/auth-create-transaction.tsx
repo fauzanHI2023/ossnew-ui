@@ -1,7 +1,7 @@
 import axios from "axios";
-import { CartItem } from "@/app/types/transaction";
-import { CreateTransactionPayload } from "@/app/types/transaction";
-import { CreateTransactionResponse } from "@/app/types/transaction";
+import { CartItem } from "../../../utils/types/transaction";
+import { CreateTransactionPayload } from "../../../utils/types/transaction";
+import { CreateTransactionResponse } from "../../../utils/types/transaction";
 
 export const createTransactionFlip = async (data: Omit<CreateTransactionPayload, "items"> & { items: CartItem[] }): Promise<CreateTransactionResponse> => {
   try {

@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { News } from "@/app/types/news";
+import { News } from "../../../../utils/types/news";
 
 interface ArticleContentProps {
   post: News;

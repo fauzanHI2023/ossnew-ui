@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, Eye, TrendingUp, Zap, ThumbsUp, MessageCircle } from "lucide-react";
 import { fetchNews } from "../../../../services/publication/auth-news";
-import { News } from "@/app/types/news";
+import { News } from "../../../../utils/types/news";
 
 interface HeroSectionProps {
   post: News;

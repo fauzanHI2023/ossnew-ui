@@ -8,7 +8,7 @@ import { useState, useRef, useEffect } from "react";
 import { SectionTitle } from "@/components/utility/SectionTitle";
 import { fetchNews } from "../../../../services/publication/auth-news";
 import { useQuery } from "@tanstack/react-query";
-import { News } from "@/app/types/news";
+import { News } from "../../../../utils/types/news";
 import Link from "next/link";
 
 export function NewsSection() {

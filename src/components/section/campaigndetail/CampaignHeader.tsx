@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Heart } from "lucide-react";
-import { Campaign } from "@/app/types/campaign";
+import { Campaign } from "../../../../utils/types/campaign";
 
 interface CampaignHeaderProps {
   post: Campaign;

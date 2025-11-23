@@ -18,8 +18,8 @@ import { createTransactionBankTransfer } from "../../../../services/donation/tra
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { useQuery } from "@tanstack/react-query";
-import { PaymentChannel } from "@/app/types/paymentchannel";
-import { User } from "@/app/types/user";
+import { PaymentChannel } from "../../../../utils/types/paymentchannel";
+import { User } from "../../../../utils/types/user";
 
 interface DonationDialogProps {
   open: boolean;

@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Clock } from "lucide-react";
-import { Campaign } from "@/app/types/campaign";
+import { Campaign } from "../../../../utils/types/campaign";
 import DOMPurify from "dompurify";
 
 interface CampaignStoryProps {

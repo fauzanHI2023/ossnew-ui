@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchNews } from "../services/publication/auth-news";
-import { News } from "@/app/types/news";
+import { News } from "../utils/types/news";
 
 export function useNewsDetail(slug?: string) {
   const { data, isLoading, isError } = useQuery({

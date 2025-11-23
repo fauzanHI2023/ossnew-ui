@@ -1,4 +1,4 @@
-import { InitiativeDetail } from "@/app/types/initiatives";
+import { InitiativeDetail } from "../utils/types/initiatives";
 import { Home, Stethoscope, GraduationCap, Droplet, Lightbulb } from "lucide-react";
 
 export const initiatives: InitiativeDetail[] = [

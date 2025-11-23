@@ -5,7 +5,7 @@ import { ChevronDown, ShoppingCart, Languages, Menu, Heart, Trash2, ArrowRight, 
 import { signIn, useSession } from "next-auth/react";
 import { useCart } from "../../../../context/CartContext";
 import { fetchCampaign } from "../../../../services/donation/campaign/auth-campaign";
-import { CartItem } from "@/app/types/cart";
+import { CartItem } from "../../../../utils/types/cart";
 import Link from "next/link";
 import Image from "next/image";
 
