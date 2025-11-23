@@ -13,7 +13,7 @@ import { CartProvider } from "../../../context/CartContext";
 import { Toaster } from "sonner";
 
 type Props = {
-  children: ReactNode;
+  children: React.ReactNode;
   params: { locale: Locale };
 };
 
@@ -50,12 +50,11 @@ export default async function LocaleLayout({ children, params }: Props) {
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
-
   // Enable static rendering
   setRequestLocale(locale);
 
   return (
-    <html className="h-full" lang={locale}>
+    <html className="h-full" lang={params.locale}>
       <body className={`${fanwood_text.variable} ${quattrocento.variable} antialiased`}>
         <AuthProvider>
           <NextIntlClientProvider>
