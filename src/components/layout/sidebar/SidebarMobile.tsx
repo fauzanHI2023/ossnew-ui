@@ -5,6 +5,11 @@ import { useState } from "react";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
+import LocaleSwitcher from "@/components/utility/LocaleSwitcher";
+import { useSession } from "next-auth/react";
+import { LoginDialog } from "../header/LoginDialogNew";
+import { LogIn } from "lucide-react";
+import { DonationDialog } from "../header/DonationDialog";
 
 interface SidebarProps {
   activeMenu: string;
@@ -16,9 +21,12 @@ interface SidebarProps {
 }
 
 export function Sidebar({ activeMenu, setActiveMenu, isCollapsed, setIsCollapsed, isMobileMenuOpen, setIsMobileMenuOpen }: SidebarProps) {
+  const { data: session } = useSession();
+  const user: any = session?.user;
   const [isDonationExpanded, setIsDonationExpanded] = useState(false);
   const [isLatestExpanded, setIsLatestExpanded] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState("Indonesia");
+  const [loginDialogOpen, setLoginDialogOpen] = useState(false);
+  const [donationDialogOpen, setDonationDialogOpen] = useState(false);
 
   const mainMenuItems = [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -202,141 +210,158 @@ export function Sidebar({ activeMenu, setActiveMenu, isCollapsed, setIsCollapsed
               )}
 
               {/* Main Menu */}
-              <div>
-                <p className="text-[#7a99b3] text-xs uppercase tracking-wider px-3 mb-2 flex items-center gap-2">
-                  <div className="w-8 h-px bg-gradient-to-r from-transparent via-[#d1e7f5] to-transparent" />
-                  {isMobile ? "Dashboard" : "Menu"}
-                </p>
-                <div className="space-y-1">
-                  {mainMenuItems.map((item) => {
-                    const Icon = item.icon;
-                    const isActive = activeMenu === item.id;
+              {session && (
+                <div>
+                  <p className="text-[#7a99b3] text-xs uppercase tracking-wider px-3 mb-2 flex items-center gap-2">
+                    <div className="w-8 h-px bg-gradient-to-r from-transparent via-[#d1e7f5] to-transparent" />
+                    {isMobile ? "Dashboard" : "Menu"}
+                  </p>
+                  <div className="space-y-1">
+                    {mainMenuItems.map((item) => {
+                      const Icon = item.icon;
+                      const isActive = activeMenu === item.id;
 
-                    return (
+                      return (
+                        <button
+                          key={item.id}
+                          onClick={() => {
+                            setActiveMenu(item.id);
+                            if (isMobile) setIsMobileMenuOpen(false);
+                          }}
+                          className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 group relative overflow-hidden ${
+                            isActive ? "bg-gradient-to-r from-[#268ece] to-[#3da9f5] text-white shadow-lg shadow-[#268ece]/30 scale-105" : "text-[#4a6b84] hover:bg-[#e8f4fb] hover:text-[#268ece] hover:scale-102"
+                          }`}
+                        >
+                          {isActive && <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent animate-pulse" />}
+                          <div className={`p-2 rounded-lg transition-all duration-300 relative z-10 ${isActive ? "bg-white/20 shadow-lg" : "bg-[#268ece]/5 group-hover:bg-[#268ece]/10"}`}>
+                            <Icon className={`w-5 h-5 ${isActive ? "text-white" : "text-[#7a99b3] group-hover:text-[#268ece]"}`} />
+                          </div>
+                          <span className="flex-1 text-left relative z-10">{item.label}</span>
+                          {isActive && <ChevronRight className="w-4 h-4 text-white animate-pulse relative z-10" />}
+                        </button>
+                      );
+                    })}
+
+                    {/* Donation with Submenu */}
+                    <div>
                       <button
-                        key={item.id}
-                        onClick={() => {
-                          setActiveMenu(item.id);
-                          if (isMobile) setIsMobileMenuOpen(false);
-                        }}
+                        onClick={() => setIsDonationExpanded(!isDonationExpanded)}
                         className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 group relative overflow-hidden ${
-                          isActive ? "bg-gradient-to-r from-[#268ece] to-[#3da9f5] text-white shadow-lg shadow-[#268ece]/30 scale-105" : "text-[#4a6b84] hover:bg-[#e8f4fb] hover:text-[#268ece] hover:scale-102"
+                          activeMenu.includes("qurban") || activeMenu === "donation"
+                            ? "bg-gradient-to-r from-[#268ece] to-[#3da9f5] text-white shadow-lg shadow-[#268ece]/30 scale-105"
+                            : "text-[#4a6b84] hover:bg-[#e8f4fb] hover:text-[#268ece] hover:scale-102"
                         }`}
                       >
-                        {isActive && <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent animate-pulse" />}
-                        <div className={`p-2 rounded-lg transition-all duration-300 relative z-10 ${isActive ? "bg-white/20 shadow-lg" : "bg-[#268ece]/5 group-hover:bg-[#268ece]/10"}`}>
-                          <Icon className={`w-5 h-5 ${isActive ? "text-white" : "text-[#7a99b3] group-hover:text-[#268ece]"}`} />
+                        {(activeMenu.includes("qurban") || activeMenu === "donation") && <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent animate-pulse" />}
+                        <div className={`p-2 rounded-lg transition-all duration-300 relative z-10 ${activeMenu.includes("qurban") || activeMenu === "donation" ? "bg-white/20 shadow-lg" : "bg-[#268ece]/5 group-hover:bg-[#268ece]/10"}`}>
+                          <Heart className={`w-5 h-5 ${activeMenu.includes("qurban") || activeMenu === "donation" ? "text-white" : "text-[#7a99b3] group-hover:text-[#268ece]"}`} />
                         </div>
-                        <span className="flex-1 text-left relative z-10">{item.label}</span>
-                        {isActive && <ChevronRight className="w-4 h-4 text-white animate-pulse relative z-10" />}
+                        <span className="flex-1 text-left relative z-10">Donation</span>
+                        <ChevronDown className={`w-4 h-4 relative z-10 transition-transform duration-300 ${isDonationExpanded ? "rotate-180" : ""} ${activeMenu.includes("qurban") || activeMenu === "donation" ? "text-white" : ""}`} />
                       </button>
-                    );
-                  })}
 
-                  {/* Donation with Submenu */}
-                  <div>
-                    <button
-                      onClick={() => setIsDonationExpanded(!isDonationExpanded)}
-                      className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 group relative overflow-hidden ${
-                        activeMenu.includes("qurban") || activeMenu === "donation"
-                          ? "bg-gradient-to-r from-[#268ece] to-[#3da9f5] text-white shadow-lg shadow-[#268ece]/30 scale-105"
-                          : "text-[#4a6b84] hover:bg-[#e8f4fb] hover:text-[#268ece] hover:scale-102"
-                      }`}
-                    >
-                      {(activeMenu.includes("qurban") || activeMenu === "donation") && <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent animate-pulse" />}
-                      <div className={`p-2 rounded-lg transition-all duration-300 relative z-10 ${activeMenu.includes("qurban") || activeMenu === "donation" ? "bg-white/20 shadow-lg" : "bg-[#268ece]/5 group-hover:bg-[#268ece]/10"}`}>
-                        <Heart className={`w-5 h-5 ${activeMenu.includes("qurban") || activeMenu === "donation" ? "text-white" : "text-[#7a99b3] group-hover:text-[#268ece]"}`} />
-                      </div>
-                      <span className="flex-1 text-left relative z-10">Donation</span>
-                      <ChevronDown className={`w-4 h-4 relative z-10 transition-transform duration-300 ${isDonationExpanded ? "rotate-180" : ""} ${activeMenu.includes("qurban") || activeMenu === "donation" ? "text-white" : ""}`} />
-                    </button>
-
-                    {/* Submenu */}
-                    {isDonationExpanded && (
-                      <div className="ml-12 mt-1 space-y-1">
-                        {donationMenuItems.map((subItem) => {
-                          const isActive = activeMenu === subItem.id;
-                          return (
-                            <button
-                              key={subItem.id}
-                              onClick={() => {
-                                setActiveMenu(subItem.id);
-                                if (isMobile) setIsMobileMenuOpen(false);
-                              }}
-                              className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg transition-all duration-300 group text-left ${
-                                isActive ? "bg-[#268ece]/20 text-[#268ece]" : "text-[#7a99b3] hover:bg-[#268ece]/10 hover:text-[#268ece]"
-                              }`}
-                            >
-                              <div className={`w-1.5 h-1.5 rounded-full ${isActive ? "bg-[#268ece]" : "bg-[#7a99b3]"}`} />
-                              <span className="text-sm">{subItem.label}</span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Other Menu Items */}
-                  {otherMenuItems.map((item) => {
-                    const Icon = item.icon;
-                    const isActive = activeMenu === item.id;
-
-                    return (
-                      <Link
-                        key={item.id}
-                        href={item.url}
-                        onClick={() => {
-                          setActiveMenu(item.id);
-                          if (isMobile) setIsMobileMenuOpen(false);
-                        }}
-                        className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 group relative overflow-hidden ${
-                          isActive ? "bg-gradient-to-r from-[#268ece] to-[#3da9f5] text-white shadow-lg shadow-[#268ece]/30 scale-105" : "text-[#4a6b84] hover:bg-[#e8f4fb] hover:text-[#268ece] hover:scale-102"
-                        }`}
-                      >
-                        {isActive && <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent animate-pulse" />}
-                        <div className={`p-2 rounded-lg transition-all duration-300 relative z-10 ${isActive ? "bg-white/20 shadow-lg" : "bg-[#268ece]/5 group-hover:bg-[#268ece]/10"}`}>
-                          <Icon className={`w-5 h-5 ${isActive ? "text-white" : "text-[#7a99b3] group-hover:text-[#268ece]"}`} />
+                      {/* Submenu */}
+                      {isDonationExpanded && (
+                        <div className="ml-12 mt-1 space-y-1">
+                          {donationMenuItems.map((subItem) => {
+                            const isActive = activeMenu === subItem.id;
+                            return (
+                              <button
+                                key={subItem.id}
+                                onClick={() => {
+                                  setActiveMenu(subItem.id);
+                                  if (isMobile) setIsMobileMenuOpen(false);
+                                }}
+                                className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg transition-all duration-300 group text-left ${
+                                  isActive ? "bg-[#268ece]/20 text-[#268ece]" : "text-[#7a99b3] hover:bg-[#268ece]/10 hover:text-[#268ece]"
+                                }`}
+                              >
+                                <div className={`w-1.5 h-1.5 rounded-full ${isActive ? "bg-[#268ece]" : "bg-[#7a99b3]"}`} />
+                                <span className="text-sm">{subItem.label}</span>
+                              </button>
+                            );
+                          })}
                         </div>
-                        <span className="flex-1 text-left relative z-10">{item.label}</span>
-                        {isActive && <ChevronRight className="w-4 h-4 text-white animate-pulse relative z-10" />}
-                      </Link>
-                    );
-                  })}
+                      )}
+                    </div>
+
+                    {/* Other Menu Items */}
+                    {otherMenuItems.map((item) => {
+                      const Icon = item.icon;
+                      const isActive = activeMenu === item.id;
+
+                      return (
+                        <Link
+                          key={item.id}
+                          href={item.url}
+                          onClick={() => {
+                            setActiveMenu(item.id);
+                            if (isMobile) setIsMobileMenuOpen(false);
+                          }}
+                          className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 group relative overflow-hidden ${
+                            isActive ? "bg-gradient-to-r from-[#268ece] to-[#3da9f5] text-white shadow-lg shadow-[#268ece]/30 scale-105" : "text-[#4a6b84] hover:bg-[#e8f4fb] hover:text-[#268ece] hover:scale-102"
+                          }`}
+                        >
+                          {isActive && <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent animate-pulse" />}
+                          <div className={`p-2 rounded-lg transition-all duration-300 relative z-10 ${isActive ? "bg-white/20 shadow-lg" : "bg-[#268ece]/5 group-hover:bg-[#268ece]/10"}`}>
+                            <Icon className={`w-5 h-5 ${isActive ? "text-white" : "text-[#7a99b3] group-hover:text-[#268ece]"}`} />
+                          </div>
+                          <span className="flex-1 text-left relative z-10">{item.label}</span>
+                          {isActive && <ChevronRight className="w-4 h-4 text-white animate-pulse relative z-10" />}
+                        </Link>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
             </nav>
 
             {/* Language Selector - Mobile Only */}
             {isMobile && (
               <div className="px-4 pb-4">
                 <p className="text-[#7a99b3] text-xs uppercase tracking-wider px-3 mb-2">Language</p>
-                <div className="bg-gradient-to-br from-[#e8f4fb] to-[#f0f8ff] rounded-2xl p-3 border border-[#268ece]/20">
-                  <div className="space-y-1">
-                    {languages.map((lang) => (
-                      <button
-                        key={lang.id}
-                        onClick={() => setSelectedLanguage(lang.label)}
-                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-300 ${
-                          selectedLanguage === lang.label ? "bg-gradient-to-r from-[#268ece] to-[#3da9f5] text-white shadow-lg" : "text-[#4a6b84] hover:bg-white/50"
-                        }`}
-                      >
-                        <span className="text-xl">{lang.flag}</span>
-                        <span className="text-sm">{lang.label}</span>
-                        {selectedLanguage === lang.label && <ChevronRight className="w-4 h-4 ml-auto" />}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                <LocaleSwitcher />
               </div>
             )}
 
             {/* Logout Button */}
-            <div className="p-4 border-t border-[#d1e7f5]">
-              <Button variant="ghost" onClick={handleSignOut} className="w-full justify-start gap-3 text-[#7a99b3] hover:bg-red-50 hover:text-red-500 rounded-xl transition-all duration-300 group">
-                <div className="p-2 bg-[#268ece]/5 rounded-lg group-hover:bg-red-100 transition-all duration-300">
-                  <LogOut className="w-5 h-5" />
-                </div>
-                <span>Logout</span>
+            {session && (
+              <div className="p-4 border-t border-[#d1e7f5]">
+                <Button variant="ghost" onClick={handleSignOut} className="w-full justify-start gap-3 text-[#7a99b3] hover:bg-red-50 hover:text-red-500 rounded-xl transition-all duration-300 group">
+                  <div className="p-2 bg-[#268ece]/5 rounded-lg group-hover:bg-red-100 transition-all duration-300">
+                    <LogOut className="w-5 h-5" />
+                  </div>
+                  <span>Logout</span>
+                </Button>
+              </div>
+            )}
+
+            {session ? (
+              <div className="px-4 pb-4 block">
+                <Link href={"/dashboard"} className="gap-2 px-3 md:px-4 py-2 h-auto rounded-xl hover:bg-[#268ece]/5 transition-all duration-300 group">
+                  <span className="text-sm text-[#0a2540]">{user?.full_name}</span>
+                  {/* <ChevronDown className="w-4 h-4 text-[#7a99b3] group-hover:text-[#268ece] transition-colors duration-300" /> */}
+                </Link>
+              </div>
+            ) : (
+              <div className="px-4 pb-4 block w-full">
+                <Button
+                  className="w-full bg-gradient-to-r from-[#268ece] to-[#3da9f5] text-white hover:shadow-xl hover:shadow-[#268ece]/40 rounded-xl px-6 py-5 gap-2 transition-all duration-300 group hover:scale-105"
+                  onClick={() => setLoginDialogOpen(true)}
+                >
+                  <LogIn className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                  Login
+                </Button>
+              </div>
+            )}
+
+            <div className="px-4 pb-4 block w-full">
+              <Button
+                className="w-full flex bg-gradient-to-r from-hi-blue-800 to-hi-blue-700 text-white hover:shadow-xl hover:shadow-[#268ece]/40 rounded-xl px-6 py-5 gap-2 transition-all duration-300 group hover:scale-105"
+                onClick={() => setDonationDialogOpen(true)}
+              >
+                <Heart className="w-5 h-5 group-hover:scale-110 transition-transform duration-300 fill-white" />
+                <span className="font-medium">Donate</span>
               </Button>
             </div>
           </>
@@ -371,6 +396,9 @@ export function Sidebar({ activeMenu, setActiveMenu, isCollapsed, setIsCollapsed
           </nav>
         )}
       </div>
+      <DonationDialog open={donationDialogOpen} onOpenChange={setDonationDialogOpen} />
+
+      <LoginDialog open={loginDialogOpen} onOpenChange={setLoginDialogOpen} />
     </div>
   );
 

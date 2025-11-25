@@ -8,10 +8,7 @@ import { NewsSection } from "@/components/section/homepage/LatestNews";
 
 export default function IndexPage() {
   return (
-    <div>
-      <h1 className="bg-hero-pattern">Makasih</h1>
-      <Donate />
-      <Header />
+    <div className="min-h-screen bg-white">
       <HeroSection />
       <CurrentCampaigns />
       <NewsSection />

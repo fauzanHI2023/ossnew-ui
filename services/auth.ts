@@ -40,6 +40,7 @@ declare module "next-auth" {
     religion?: string;
     blood_type?: string;
     phones?: any[];
+    phone?: string;
   }
 
   interface Session {

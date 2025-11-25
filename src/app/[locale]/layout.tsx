@@ -12,10 +12,7 @@ import AuthProvider from "../../../context/SessionProvider";
 import { CartProvider } from "../../../context/CartContext";
 import { Toaster } from "sonner";
 
-type Props = {
-  children: React.ReactNode;
-  params: { locale: Locale };
-};
+type Params = Promise<{ locale: string }>;
 
 const quattrocento = Ubuntu({
   weight: ["300", "400", "700"], // tergantung kebutuhan
@@ -35,8 +32,8 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({ params }: { params: { locale: Locale } }) {
-  const { locale } = params;
+export async function generateMetadata({ params }: { params: Params }) {
+  const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "LocaleLayout" });
 
   return {
@@ -44,8 +41,8 @@ export async function generateMetadata({ params }: { params: { locale: Locale } 
   };
 }
 
-export default async function LocaleLayout({ children, params }: Props) {
-  const { locale } = params;
+export default async function RootLayout({ children, params }: { children: React.ReactNode; params: Params }) {
+  const { locale } = await params;
 
   if (!hasLocale(routing.locales, locale)) {
     notFound();
@@ -54,7 +51,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   setRequestLocale(locale);
 
   return (
-    <html className="h-full" lang={params.locale}>
+    <html className="h-full overflow-x-hidden" lang={locale}>
       <body className={`${fanwood_text.variable} ${quattrocento.variable} antialiased`}>
         <AuthProvider>
           <NextIntlClientProvider>

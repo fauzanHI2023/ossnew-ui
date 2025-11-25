@@ -35,7 +35,7 @@ const HeroSection = () => {
               {/* Animated Badge */}
               <div className="inline-flex items-center gap-2 mb-6 px-6 py-2 bg-gradient-to-r from-[#268ece]/10 to-[#268ece]/5 backdrop-blur-sm rounded-full border border-[#268ece]/20">
                 <Heart size={16} className="text-[#268ece]" />
-                <span className="text-[#268ece]">Humanitarian Organization</span>
+                <span className="text-[#268ece]">Human Initiative</span>
               </div>
 
               <p className="text-xl md:text-2xl mb-8 text-gray-600 leading-relaxed">Discover our journey, values, and the impact we create together in building a better world for everyone.</p>

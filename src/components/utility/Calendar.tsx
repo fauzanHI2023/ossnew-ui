@@ -8,8 +8,8 @@ import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 
 type CalendarPickerProps = {
-  selectedDate: Date | null;
-  onSelectDate: (date: Date | null) => void;
+  selectedDate: Date | undefined;
+  onSelectDate: (date: Date | undefined) => void;
 };
 
 export const CalendarPicker: React.FC<CalendarPickerProps> = ({ selectedDate, onSelectDate }) => {

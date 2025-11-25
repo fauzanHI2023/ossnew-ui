@@ -64,7 +64,7 @@ const page = () => {
             <div className="lg:col-span-2">
               <CampaignHeader post={post} />
               {/* Mobile Donate Buttons - Right after title */}
-              <MobileDonateButtons />
+              <MobileDonateButtons post={post} />
               {/* Campaign Story Tabs */}
               <CampaignStory post={post} />
             </div>

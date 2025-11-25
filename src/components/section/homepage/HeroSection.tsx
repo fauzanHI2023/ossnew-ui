@@ -3,7 +3,7 @@ import { ArrowRight, Handshake, Shield, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/cardhome";
 import Image from "next/image";
-import { DonationDialog } from "@/components/utility/DonationDialog";
+import { DonationDialog } from "@/components/layout/header/DonationDialog";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 

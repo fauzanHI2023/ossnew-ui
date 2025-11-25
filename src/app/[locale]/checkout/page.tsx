@@ -14,6 +14,7 @@ import { User } from "../../../../utils/types/user";
 import Cookies from "js-cookie";
 import { Button } from "@/components/ui/button";
 import { fetchDeleteCart } from "../../../../services/donation/transaction/auth-delete-cart";
+import { FloatingCheckoutBar } from "@/components/section/checkout/FloatingCheckoutBar";
 
 export default function Checkout() {
   const { data: session, status } = useSession();
@@ -24,8 +25,8 @@ export default function Checkout() {
 
   useEffect(() => {
     if (status === "authenticated" && session) {
-      const user = session.user as User;
-      setUserId(user.phpDonorData.id);
+      const user = session.user;
+      setUserId(user.phpDonorData?.[0]?.id ? Number(user.phpDonorData[0].id) : null);
     }
   }, [status]);
 
@@ -170,6 +171,7 @@ export default function Checkout() {
             </div>
           </div>
         </div>
+        <FloatingCheckoutBar total={total} itemCount={cartItems.length} isCartComplete={isCartComplete} isContactComplete={isContactComplete} isPaymentComplete={isPaymentComplete} onPay={handlePay} isProcessing={isProcessing} />
       </div>
 
       {/* ✅ Dialog Sukses */}

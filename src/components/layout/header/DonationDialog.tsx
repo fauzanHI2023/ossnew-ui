@@ -47,11 +47,11 @@ export function DonationDialog({ open, onOpenChange }: DonationDialogProps) {
 
   useEffect(() => {
     if (status === "authenticated" && session) {
-      const user = session.user as User;
-      setUserId(user.phpDonorData.id);
+      const user = session.user;
+      setUserId(user.phpDonorData?.[0]?.id ? Number(user.phpDonorData[0].id) : null);
       setFullName(user.full_name);
       setEmail(user.email);
-      setPhone(user.phones.phone_no);
+      setPhone(user.phones?.[0]?.phone_no ?? "");
     }
   }, [status]);
 
@@ -246,7 +246,7 @@ export function DonationDialog({ open, onOpenChange }: DonationDialogProps) {
               {/* Donation Amount */}
               <div>
                 <Label className="text-base mb-3 block text-gray-700">Select Donation Amount</Label>
-                <div className="grid grid-cols-3 gap-3 mb-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 mb-3">
                   {presetAmounts.map((preset) => (
                     <button
                       key={preset}

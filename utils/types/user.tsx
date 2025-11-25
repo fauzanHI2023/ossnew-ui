@@ -4,5 +4,5 @@ export interface User {
   email: string;
   phone: string;
   phones: { phone_no: string };
-  phpDonorData: { id: number };
+  phpDonorData?: { id: number }[];
 }

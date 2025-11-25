@@ -21,19 +21,19 @@ export function CartItem({ campaign_id, campaign_name, amount, campaign_img, onD
       className="group relative flex items-center gap-4 p-4 bg-gradient-to-br from-white to-gray-50/50 rounded-xl border border-gray-200 hover:border-[#268ece]/30 hover:shadow-md transition-all duration-300"
     >
       <div className="relative">
-        <Image src={`https://cdnx.human-initiative.org/image/${campaign_img}`} width={100} height={100} alt={campaign_name} className="w-24 h-24 rounded-lg object-cover shadow-sm" />
+        <Image src={`https://cdnx.human-initiative.org/image/${campaign_img}`} width={100} height={100} alt={campaign_name} className="w-16 h-16 sm:w-24 sm:h-24 rounded-lg object-cover shadow-s" />
         <div className="absolute -top-2 -left-2 w-6 h-6 bg-[#268ece] rounded-full flex items-center justify-center shadow-lg">
           <Package className="w-3 h-3 text-white" />
         </div>
       </div>
-      <div className="flex-1">
-        <h3 className="text-gray-900 group-hover:text-[#268ece] transition-colors">{campaign_name}</h3>
-        <div className="flex items-center gap-2 mt-2">
-          <span className="text-[#268ece]">Rp {amount.toLocaleString("id-ID")}</span>
-          <span className="text-xs text-gray-400">• Campaign aktif</span>
+      <div className="flex-1 min-w-0 pr-2">
+        <h3 className="text-gray-900 group-hover:text-[#268ece] transition-colors line-clamp-2">{campaign_name}</h3>
+        <div className="flex items-center gap-2 mt-1.5 sm:mt-2 flex-wrap">
+          <span className="text-sm sm:text-base text-[#268ece]">Rp {amount.toLocaleString("id-ID")}</span>
+          <span className="text-xs text-gray-400 hidden sm:inline">• Campaign aktif</span>
         </div>
       </div>
-      <Button variant="ghost" size="icon" onClick={() => onDelete(campaign_id)} className="text-gray-400 hover:text-red-500 hover:bg-red-50 hover:scale-110 transition-all">
+      <Button variant="ghost" size="icon" onClick={() => onDelete(campaign_id)} className="text-gray-400 hover:text-red-500 hover:bg-red-50 hover:scale-110 transition-all shrink-0 h-9 w-9 sm:h-10 sm:w-10">
         <Trash2 className="w-5 h-5" />
       </Button>
     </motion.div>

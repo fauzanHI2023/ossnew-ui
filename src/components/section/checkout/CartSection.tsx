@@ -18,14 +18,18 @@ export function CartSection() {
 
   return (
     <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-white/70 backdrop-blur-xl rounded-2xl p-8 shadow-lg border border-white/50">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-3">
-          <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isCartComplete ? "bg-gradient-to-r from-[#268ece] to-[#3da9f5] hover:shadow-xl hover:shadow-[#268ece]/40 text-white" : "bg-[#268ece]/10 text-[#268ece]"}`}>
+      <div className="flex items-center justify-between mb-4 sm:mb-6 flex-wrap gap-3">
+        <div className="flex items-center gap-3 min-w-0">
+          <div
+            className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
+              isCartComplete ? "bg-gradient-to-r from-[#268ece] to-[#3da9f5] hover:shadow-xl hover:shadow-[#268ece]/40 text-white" : "bg-[#268ece]/10 text-[#268ece]"
+            }`}
+          >
             {isCartComplete ? <Check className="w-5 h-5" /> : <ShoppingCart className="w-5 h-5" />}
           </div>
           <div>
             <h2 className="text-gray-900">Campaign Anda</h2>
-            <p className="text-sm text-gray-500">{cartItems.length} item dalam keranjang</p>
+            <p className="text-sm text-gray-500 whitespace-nowrap">{cartItems.length} item dalam keranjang</p>
           </div>
         </div>
         {cartItems.length > 0 && (

@@ -24,7 +24,7 @@ export function PartnerDialog({ open, onOpenChange, projectId }: PartnerDialogPr
   const [form, setForm] = useState({
     name: "",
     email: "",
-    meetingDate: null as Date | null,
+    meetingDate: undefined as Date | undefined,
     startTime: "",
     endTime: "",
     location: "",

@@ -110,9 +110,9 @@ export function TopHeader({ onMenuClick, onCartHover }: TopHeaderProps) {
               const isActive = activeMenu === item.id;
 
               return (
-                <Button
+                <Link
                   key={item.id}
-                  variant="ghost"
+                  href={item.url}
                   onClick={() => setActiveMenu(item.id)}
                   className={`relative px-3 lg:px-6 py-2 h-auto rounded-xl transition-all duration-300 overflow-hidden group ${isActive ? "text-white" : "text-[#4a6b84] hover:text-[#268ece]"}`}
                 >
@@ -127,13 +127,11 @@ export function TopHeader({ onMenuClick, onCartHover }: TopHeaderProps) {
                   {/* Hover Effect */}
                   {!isActive && <div className="absolute inset-0 bg-[#268ece]/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />}
 
-                  <Link href={item.url}>
-                    <span className="relative z-10">{item.label}</span>
-                  </Link>
+                  <span className="relative z-10">{item.label}</span>
 
                   {/* Active Indicator Dot */}
                   {isActive && <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-white rounded-full shadow-lg" />}
-                </Button>
+                </Link>
               );
             })}
 

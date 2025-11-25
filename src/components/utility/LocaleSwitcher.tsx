@@ -30,9 +30,13 @@ export default function LocaleSwitcher() {
   };
 
   return (
-    <div className="relative hidden md:block" onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
+    <div className="relative block" onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
       {/* Tombol utama */}
-      <Button variant="ghost" disabled={isPending} className="flex items-center rounded-xl hover:bg-[#268ece]/5 text-[#7a99b3] hover:text-[#268ece] transition-all duration-300 h-9 md:h-11 px-2 md:px-3 gap-2">
+      <Button
+        variant="ghost"
+        disabled={isPending}
+        className="w-full md:w-auto bg-gray-200 md:bg-white flex items-center rounded-xl hover:bg-[#268ece]/5 text-[#7a99b3] hover:text-[#268ece] transition-all duration-300 h-9 md:h-11 px-2 md:px-3 gap-2"
+      >
         <span className="">{locale}</span>
         <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
       </Button>

@@ -16,6 +16,11 @@ interface ProjectsSectionProps {
   sortBy: string;
 }
 
+interface ProjectResponse {
+  status: boolean;
+  data: Project[];
+}
+
 interface Project {
   id: number;
   title: string;
@@ -38,7 +43,7 @@ export function ProjectsSection({ onProjectDetails, onBookProject, onOpenSorting
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const { data: projectResponse, isLoading } = useQuery({
+  const { data: projectResponse, isLoading } = useQuery<Project[]>({
     queryKey: ["projects"],
     queryFn: fetchListProject,
   });
@@ -47,18 +52,18 @@ export function ProjectsSection({ onProjectDetails, onBookProject, onOpenSorting
   //   console.log("❌ error:", Error);
   //   console.log("⏳ isLoading:", isLoading);
 
-  const projects: Project[] = Array.isArray(projectResponse) ? projectResponse : projectResponse?.data ?? [];
+  const projects: Project[] = Array.isArray(projectResponse) ? projectResponse : projectResponse ?? [];
 
   useEffect(() => {
     if (projects.length > 0) {
-      //   console.log("Total projects:", projects.length);
-      //   console.table(
-      //     projects.map((p) => ({
-      //       id: p.id,
-      //       title: p.title,
-      //       parent_program: p.parent_program,
-      //     }))
-      //   );
+      console.log("Total projects:", projects.length);
+      console.table(
+        projects.map((p) => ({
+          id: p.id,
+          title: p.title,
+          parent_program: p.parent_program,
+        }))
+      );
     }
   }, [projects]);
 

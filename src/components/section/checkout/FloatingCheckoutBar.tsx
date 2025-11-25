@@ -11,9 +11,11 @@ interface FloatingCheckoutBarProps {
   isCartComplete: boolean;
   isContactComplete: boolean;
   isPaymentComplete: boolean;
+  onPay: () => void;
+  isProcessing: boolean;
 }
 
-export function FloatingCheckoutBar({ total, itemCount, isCartComplete, isContactComplete, isPaymentComplete }: FloatingCheckoutBarProps) {
+export function FloatingCheckoutBar({ total, itemCount, isCartComplete, isContactComplete, onPay, isPaymentComplete }: FloatingCheckoutBarProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -119,7 +121,7 @@ export function FloatingCheckoutBar({ total, itemCount, isCartComplete, isContac
                   <div className="flex items-center justify-between gap-4">
                     <button onClick={() => setIsExpanded(!isExpanded)} className="flex items-center gap-3 text-left flex-1 min-w-0 group">
                       <motion.div
-                        className="relative w-11 h-11 rounded-xl bg-gradient-to-br from-[#268ece] to-teal-500 flex items-center justify-center flex-shrink-0 shadow-lg shadow-[#268ece]/30"
+                        className="relative w-11 h-11 rounded-xl bg-gradient-to-br from-hi-blue-500 to-hi-blue-700 flex items-center justify-center flex-shrink-0 shadow-lg shadow-[#268ece]/30"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                       >
@@ -144,7 +146,7 @@ export function FloatingCheckoutBar({ total, itemCount, isCartComplete, isContac
 
                     <motion.div whileHover={{ scale: canCheckout && !isProcessing ? 1.02 : 1 }} whileTap={{ scale: canCheckout && !isProcessing ? 0.98 : 1 }}>
                       <Button
-                        onClick={handleCheckout}
+                        onClick={onPay}
                         disabled={!canCheckout || isProcessing}
                         className="relative h-12 px-7 rounded-xl bg-gradient-to-r from-[#268ece] via-[#1e7ab8] to-[#268ece] hover:shadow-2xl text-white shadow-lg shadow-[#268ece]/40 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden group"
                         style={{ backgroundSize: "200% 100%" }}

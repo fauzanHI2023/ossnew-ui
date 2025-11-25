@@ -351,7 +351,7 @@ const ImpactSection = () => {
         </div>
 
         {/* Transparency Dashboard */}
-        <div className="mb-20">
+        <div className="mb-20 hidden">
           <div className="text-center mb-12">
             <h3 className="text-3xl text-gray-900 mb-3">Transparency & Accountability</h3>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">We believe in complete transparency - see exactly how your contributions create impact</p>
