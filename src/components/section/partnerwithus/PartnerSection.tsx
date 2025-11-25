@@ -1,4 +1,5 @@
 import { partnerLogos } from "../../../../data/constants";
+import Image from "next/image";
 
 export function PartnersSection() {
   return (
@@ -7,9 +8,10 @@ export function PartnersSection() {
         <h2 className="text-3xl text-center mb-12 text-gray-900">Our Clients and Partners</h2>
         <div className="relative overflow-hidden">
           <div className="flex animate-scroll">
-            {[...partnerLogos, ...partnerLogos].map((logo, index) => (
-              <div key={index} className="flex-shrink-0 w-48 h-24 mx-4 bg-white border border-gray-200 rounded-lg flex items-center justify-center hover:shadow-md transition-shadow">
-                <span className="text-gray-400">{logo}</span>
+            {[...partnerLogos, ...partnerLogos].map((card, index) => (
+              <div key={`${card.id}-${index}`} className="flex-shrink-0 flex-col w-48 h-24 mx-4 bg-white border border-gray-200 rounded-lg flex items-center justify-center hover:shadow-md transition-shadow">
+                <Image src={card.img} alt={card.title} width={80} height={50} className="object-contain" />
+                <span className="text-gray-400 hidden">{card.title}</span>
               </div>
             ))}
           </div>
