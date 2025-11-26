@@ -43,7 +43,6 @@ export function MobileDonateButtons({ post }: CampaignHeaderProps) {
   };
 
   const handleDonasiClick = () => {
-    // Ambil nominal donasi — prioritas customAmount, lalu selectedAmount
     const amount = customAmount ? Number(customAmount) : selectedAmount;
 
     if (!amount || amount <= 0) {
@@ -51,41 +50,44 @@ export function MobileDonateButtons({ post }: CampaignHeaderProps) {
       return;
     }
 
-    if (post?.id) {
-      // ambil cookie ID
-      const cookiesId = document.cookie
+    if (!post?.id) return;
+
+    // --- FIX COOKIE FLOW ---
+    let cookiesId =
+      document.cookie
         .split(";")
-        .find((cookie) => cookie.trim().startsWith("osscart="))
-        ?.split("=")[1];
+        .find((c) => c.trim().startsWith("osscart="))
+        ?.split("=")[1] ?? null;
 
-      if (cookiesId) {
-        const cartData = {
-          cookies_id: cookiesId,
-          campaign_id: post.id,
-          quantity: 1, // karena bukan qurban, cukup 1
-          amount,
-        };
-
-        // simpan di localStorage
-        const storedData = JSON.parse(localStorage.getItem("osscart") || "[]");
-        const updatedCart = [...storedData, cartData];
-
-        localStorage.setItem("osscart", JSON.stringify(updatedCart));
-        setCartItems(updatedCart);
-
-        // kirim ke API
-        inputCart(cartData.cookies_id, cartData.campaign_id, cartData.quantity, cartData.amount)
-          .then(() => {
-            setNotifMessage("Donation Added!");
-            router.push(`/checkout`);
-          })
-          .catch(() => {
-            setNotifMessage("An error occurred when making a donation.");
-          });
-      } else {
-        setNotifMessage("Cookie 'osscart' tidak ditemukan.");
-      }
+    if (!cookiesId) {
+      cookiesId = crypto.randomUUID();
+      document.cookie = `osscart=${cookiesId}; path=/; max-age=31536000; SameSite=Lax`;
     }
+    // --- END FIX ---
+
+    const cartData = {
+      cookies_id: cookiesId,
+      campaign_id: post.id,
+      quantity: 1,
+      amount,
+    };
+
+    // simpan localStorage
+    const storedData = JSON.parse(localStorage.getItem("osscart") || "[]");
+    const updatedCart = [...storedData, cartData];
+
+    localStorage.setItem("osscart", JSON.stringify(updatedCart));
+    setCartItems(updatedCart);
+
+    // kirim ke API
+    inputCart(cartData.cookies_id, cartData.campaign_id, cartData.quantity, cartData.amount)
+      .then(() => {
+        setNotifMessage("Donation Added!");
+        router.push(`/checkout`);
+      })
+      .catch(() => {
+        setNotifMessage("An error occurred when making a donation.");
+      });
   };
 
   useEffect(() => {
