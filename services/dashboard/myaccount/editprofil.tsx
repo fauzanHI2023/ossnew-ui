@@ -9,6 +9,12 @@ export interface UpdateProfilePayload {
   blood_type: string;
   country_id: string | number;
   address: string;
+  facebook: string;
+  instagram: string;
+  website: string;
+  youtube: string;
+  twitter: string;
+  linkedin: string;
 }
 
 export const updateProfile = async (id: number | string, payload: UpdateProfilePayload) => {

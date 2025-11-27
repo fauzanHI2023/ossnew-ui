@@ -5,6 +5,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 interface SidebarProps {
   activeMenu: string;
@@ -16,6 +17,8 @@ interface SidebarProps {
 }
 
 export function Sidebar({ activeMenu, setActiveMenu, isCollapsed, setIsCollapsed, isMobileMenuOpen, setIsMobileMenuOpen }: SidebarProps) {
+  const { data: session } = useSession();
+  const user = session?.user;
   const [isDonationExpanded, setIsDonationExpanded] = useState(false);
   const [isLatestExpanded, setIsLatestExpanded] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("Indonesia");
@@ -98,8 +101,8 @@ export function Sidebar({ activeMenu, setActiveMenu, isCollapsed, setIsCollapsed
             <div className="px-6 pb-6">
               <div className="bg-gradient-to-br from-[#e8f4fb] to-[#f0f8ff] backdrop-blur-xl rounded-2xl p-4 border border-[#268ece]/20 shadow-lg hover:shadow-xl hover:shadow-[#268ece]/10 transition-all duration-300 hover:scale-105">
                 <div className="mb-4">
-                  <h3 className="text-[#0a2540] mb-1">John Doe</h3>
-                  <p className="text-xs text-[#7a99b3]">john.doe@email.com</p>
+                  <h3 className="text-[#0a2540] mb-1">{user?.full_name ?? ""}</h3>
+                  <p className="text-xs text-[#7a99b3]">{user?.email ?? ""}</p>
                 </div>
 
                 {/* Quick Stats */}
