@@ -85,13 +85,7 @@ const HeroSection = () => {
             <div className="relative z-10">
               {/* Image with rounded corners and shadow */}
               <div className="relative rounded-3xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-500">
-                <Image
-                  src="https://images.unsplash.com/photo-1616992873922-94702fd40c94?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxodW1hbml0YXJpYW4lMjB3b3JrZXJzJTIwcHJvZmVzc2lvbmFsJTIwY29tbXVuaXR5fGVufDF8fHx8MTc2MDg3NTU3MXww&ixlib=rb-4.1.0&q=80&w=1080"
-                  width={800}
-                  height={700}
-                  alt="Professional humanitarian workers in action"
-                  className="w-full h-[600px] object-cover"
-                />
+                <Image src="/ABout Banner (1).jpg" width={800} height={700} alt="Professional humanitarian workers in action" className="w-full h-[600px] object-cover" />
                 {/* Gradient Overlay for better contrast */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#268ece]/20 to-transparent"></div>
               </div>
@@ -110,9 +104,9 @@ const HeroSection = () => {
               </div>
 
               {/* Decorative Dots Pattern */}
-              <div className="absolute top-8 left-8 grid grid-cols-3 gap-2 opacity-50">
+              <div className="absolute top-8 left-8 grid grid-cols-3 gap-2 opacity-100">
                 {[...Array(9)].map((_, i) => (
-                  <div key={i} className="w-2 h-2 bg-[#268ece] rounded-full"></div>
+                  <div key={i} className="w-2 h-2 bg-white rounded-full"></div>
                 ))}
               </div>
             </div>

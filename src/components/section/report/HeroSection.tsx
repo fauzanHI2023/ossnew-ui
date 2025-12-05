@@ -160,13 +160,7 @@ export function HeroBanner() {
 
               {/* Image */}
               <div className="relative h-full overflow-hidden rounded-3xl shadow-2xl">
-                <Image
-                  src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjB3b3Jrc3BhY2UlMjBjcmVhdGl2ZSUyMHRlYW18ZW58MXx8fHwxNzYwNTM2NTkwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                  width={800}
-                  height={700}
-                  alt="Humanitarian workers in action"
-                  className="w-full h-full object-cover"
-                />
+                <Image src="/latest/DSC04690 (1).jpg" width={800} height={700} alt="Humanitarian workers in action" className="w-full h-full object-cover" />
                 {/* Subtle Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
               </div>

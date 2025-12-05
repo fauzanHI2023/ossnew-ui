@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { Users, Heart, HandHeart, Home, Baby, Lightbulb, ShieldAlert, Building2, Globe, TrendingUp, DollarSign, PieChart, ChevronRight, ArrowRight } from "lucide-react";
+import { Users, Heart, HandHeart, Home, Baby, Lightbulb, ShieldAlert, Building2, Globe, TrendingUp, DollarSign, PieChart, ChevronRight, ArrowRight, Waves, UsersRound } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart as RePieChart, Pie, Cell, LineChart, Line } from "recharts";
@@ -62,40 +62,37 @@ const ImpactSection = () => {
   const programs = [
     {
       icon: Baby,
-      title: "Child Development",
+      title: "Initiative For Children",
       description: "Ensuring every child has access to education, nutrition, and healthcare for a brighter future.",
       stats: "150,000+ Children Supported",
-      image:
-        "https://images.unsplash.com/photo-1594391227854-f7baa68a6039?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoYXBweSUyMGNoaWxkcmVuJTIwZWR1Y2F0aW9ufGVufDF8fHx8MTc2MDY4OTMxM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      image: "/DSC08285 (1).jpg",
       color: "bg-blue-500",
       gradient: "from-blue-500/20 to-blue-600/20",
     },
     {
-      icon: Lightbulb,
-      title: "Empowerment",
+      icon: UsersRound,
+      title: "Initiative For Empowerment",
       description: "Building sustainable livelihoods through skills training, entrepreneurship, and community development.",
       stats: "80,000+ People Empowered",
-      image: "https://images.unsplash.com/photo-1529209076408-5a115ec9f1c6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjBlbXBvd2VybWVudHxlbnwxfHx8fDE3NjA2ODkzMTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      image: "/empowerment (1).jpg",
       color: "bg-green-500",
       gradient: "from-green-500/20 to-green-600/20",
     },
     {
-      icon: ShieldAlert,
-      title: "Disaster Relief",
+      icon: Waves,
+      title: "Initiative For Disaster Risk Management",
       description: "Rapid response and recovery support for communities affected by natural disasters and emergencies.",
       stats: "200+ Emergency Responses",
-      image:
-        "https://images.unsplash.com/photo-1760013767160-8eb4d9ed3115?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaXNhc3RlciUyMHJlbGllZiUyMHZvbHVudGVlcnN8ZW58MXx8fHwxNzYwNjg5MzE0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      image: "/disaster (1).jpg",
       color: "bg-red-500",
       gradient: "from-red-500/20 to-red-600/20",
     },
     {
       icon: Building2,
-      title: "Infrastructure",
+      title: "Initiative For Infrastructure",
       description: "Building essential facilities including schools, health centers, clean water systems, and shelters.",
       stats: "1,000+ Projects Completed",
-      image:
-        "https://images.unsplash.com/photo-1694969318559-146aab58627e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjbGVhbiUyMHdhdGVyJTIwaW5mcmFzdHJ1Y3R1cmV8ZW58MXx8fHwxNzYwNjg5MzE0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      image: "/infrastructure.jpg",
       color: "bg-purple-500",
       gradient: "from-purple-500/20 to-purple-600/20",
     },
@@ -104,27 +101,33 @@ const ImpactSection = () => {
   // Storytelling Carousel
   const stories = [
     {
-      name: "Aisha Rahman",
-      location: "Bangladesh",
-      story: '"Thanks to the scholarship program, I completed my education and became the first doctor in my village. Now I serve my community with pride."',
-      image:
-        "https://images.unsplash.com/photo-1594391227854-f7baa68a6039?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoYXBweSUyMGNoaWxkcmVuJTIwZWR1Y2F0aW9ufGVufDF8fHx8MTc2MDY4OTMxM3ww&ixlib=rb-4.1.0&q=80&w=1080",
-      program: "Child Development",
+      name: "Qia",
+      location: "Indonesia",
+      story:
+        '"Thank you, Human Initiative, for giving me the opportunity to pursue my dreams without having to worry about education costs. This assistance has been a bridge that has enabled me to explore my potential and pursue my dreams."',
+      image: "/WhatsApp-Image-2025-09-03-at-16.24.46 (1).jpeg",
+      program: "Initiative For Children",
     },
     {
-      name: "David Okonkwo",
-      location: "Nigeria",
-      story: '"The vocational training gave me skills to start my own carpentry business. I now employ 5 people from my community."',
-      image: "https://images.unsplash.com/photo-1529209076408-5a115ec9f1c6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjBlbXBvd2VybWVudHxlbnwxfHx8fDE3NjA2ODkzMTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      program: "Empowerment",
+      name: "Sunarti",
+      location: "Indonesia",
+      story: "“Seeing the community start sorting waste, creating ecobricks, and taking pride in caring for their own neighborhood is my greatest joy—because from our small steps, meaningful change has grown for Tello Baru Village.”",
+      image: "/WhatsApp-Image-2025-11-06-at-14.03.51 (1) (1).jpeg",
+      program: "Initiative For Empowerment",
     },
     {
-      name: "Maria Santos",
-      location: "Philippines",
-      story: '"After the typhoon destroyed our home, Human Initiative helped rebuild our lives. We now have a safe place to call home."',
-      image:
-        "https://images.unsplash.com/photo-1760013767160-8eb4d9ed3115?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaXNhc3RlciUyMHJlbGllZiUyMHZvbHVudGVlcnN8ZW58MXx8fHwxNzYwNjg5MzE0fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      program: "Disaster Relief",
+      name: "Ani",
+      location: "Indonesia",
+      story: '"The first time I entered Rumah Senyum, i felt more comfortable. I have a private space for me and my family here. Thank you, Initiators. May you receive many rewards and may Allah grant you even more."',
+      image: "/story disaster.jpg",
+      program: "Initiative For Disaster Risk Management",
+    },
+    {
+      name: "Krisyanto",
+      location: "Indonesia",
+      story: "“Seeing water finally flow into our homes is a tremendous joy—we feel it every morning, because through simple collective effort, daily life in Wonogiri has now become much easier.”",
+      image: "/20230915_073143162_iOS-scaled (1).jpg",
+      program: "Initiative For Infrastructure",
     },
   ];
 
@@ -285,7 +288,7 @@ const ImpactSection = () => {
           </div>
 
           {/* Program Distribution Chart */}
-          <div className="bg-white rounded-2xl p-8 border-2 border-gray-100 shadow-lg max-w-6xl mx-auto mt-8">
+          <div className="hidden bg-white rounded-2xl p-8 border-2 border-gray-100 shadow-lg max-w-6xl mx-auto mt-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-3 bg-[#268ece]/10 rounded-lg">
                 <Heart size={24} className="text-[#268ece]" />

@@ -30,14 +30,14 @@ const ContactSection = () => {
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl mb-4 text-gray-900">Contact Us</h2>
           <div className="w-20 h-1 bg-[#268ece] mx-auto mb-4"></div>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">Hubungi kami untuk informasi lebih lanjut atau kerja sama</p>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">Contact us for more information or collaboration</p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
           {/* Contact Information */}
           <div>
             <h3 className="text-3xl mb-6 text-gray-900">Get In Touch</h3>
-            <p className="text-gray-600 mb-8">Kami siap membantu Anda. Jangan ragu untuk menghubungi kami melalui form atau kontak di bawah ini.</p>
+            <p className="text-gray-600 mb-8">We're ready to help. Don't hesitate to contact us using the form or contact information below.</p>
 
             <div className="space-y-6">
               <div className="flex items-start gap-4">
@@ -86,13 +86,11 @@ const ContactSection = () => {
             </div>
 
             <div className="mt-8 p-6 bg-gradient-to-br from-[#268ece] to-[#1a5f8f] rounded-xl text-white">
-              <h4 className="text-xl mb-2">Jam Operasional</h4>
+              <h4 className="text-xl mb-2">Office Hours</h4>
               <p className="opacity-90">
-                Senin - Jumat: 09:00 - 17:00 WIB
+                Monday - Friday: 08:00 - 17:00 WIB
                 <br />
-                Sabtu: 09:00 - 13:00 WIB
-                <br />
-                Minggu: Tutup
+                Saturday - Sunday: Closed
               </p>
             </div>
           </div>
@@ -103,7 +101,7 @@ const ContactSection = () => {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label htmlFor="name" className="block text-sm mb-2 text-gray-700">
-                  Nama Lengkap
+                  Fullname
                 </label>
                 <input
                   type="text"
@@ -135,7 +133,7 @@ const ContactSection = () => {
 
               <div>
                 <label htmlFor="subject" className="block text-sm mb-2 text-gray-700">
-                  Subjek
+                  Subject
                 </label>
                 <input
                   type="text"
@@ -151,7 +149,7 @@ const ContactSection = () => {
 
               <div>
                 <label htmlFor="message" className="block text-sm mb-2 text-gray-700">
-                  Pesan
+                  Message
                 </label>
                 <textarea
                   id="message"
@@ -167,7 +165,7 @@ const ContactSection = () => {
 
               <button type="submit" className="w-full px-6 py-3 bg-[#268ece] text-white rounded-lg hover:bg-[#1a5f8f] transition-colors flex items-center justify-center gap-2">
                 <Send size={20} />
-                Kirim Pesan
+                Send Message
               </button>
             </form>
           </div>

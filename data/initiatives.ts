@@ -4,7 +4,8 @@ import { Home, Stethoscope, GraduationCap, Droplet, Lightbulb } from "lucide-rea
 export const initiatives: InitiativeDetail[] = [
   {
     type: "disaster",
-    title: "Disaster Response",
+    title: "Initiative For Disaster Risk Management",
+    img: "/initiatives/DSC00884 (1).jpg",
     description: "Program bantuan kemanusiaan untuk korban bencana alam dan mitigasi bencana di seluruh Indonesia.",
     featuredPrograms: [
       {
@@ -14,7 +15,7 @@ export const initiatives: InitiativeDetail[] = [
         color: "text-[#268ece]",
         bgColor: "bg-[#268ece]/5",
         description: "Sejumlah program yang bertujuan meningkatnya kualitas hidup masyarakat terdampak bencana minimal ke posisi awal sebelum bencana terjadi.",
-        image: "/images/programs/banjir.jpg",
+        image: "/initiativedetail/Disaster5.jpg",
       },
       {
         id: "2",
@@ -24,7 +25,7 @@ export const initiatives: InitiativeDetail[] = [
         bgColor: "bg-[#268ece]/5",
         description:
           "Merupakan desa yang memiliki kemampuan untuk mengenali ancaman di wilayahnya dan mampu mengorganisir sumber daya masyarakat untuk mengurangi kerentanan dan sekaligus meningkatkan kapasitas demi mengurangi risiko bencana.",
-        image: "/images/programs/pos-bencana.jpg",
+        image: "/initiativedetail/DSC02439.JPG",
       },
       {
         id: "3",
@@ -33,13 +34,14 @@ export const initiatives: InitiativeDetail[] = [
         color: "text-[#268ece]",
         bgColor: "bg-[#268ece]/5",
         description: "Program Mitigasi Perubahan Iklim adalah serangkaian kegiatan untuk mengurangi dampak perubahan iklim dengan menurunkan emisi gas rumah kaca atau meningkatkan penyimpanan karbon.",
-        image: "/images/programs/pos-bencana.jpg",
+        image: "/initiativedetail/DSC05769.JPG",
       },
     ],
   },
   {
     type: "children",
-    title: "Children Care",
+    title: "Initiative For Children",
+    img: "/initiatives/Initiative Children.JPG",
     description: "Meningkatkan kualitas hidup anak-anak melalui pendidikan, kesehatan, dan perlindungan anak.",
     featuredPrograms: [
       {
@@ -50,7 +52,7 @@ export const initiatives: InitiativeDetail[] = [
         bgColor: "bg-[#268ece]/5",
         description:
           "Bentuk program Pusat Pengembangan Anak yaitu dengan mendirikan HOME Children Center sebagai pusat perlindungan dan pemenuhan hak anak di wilayah-wilayah rawan dan terpencil sebagai pemenuhan hak dan perlindungan anak.",
-        image: "/images/programs/sekolah-ceria.jpg",
+        image: "/initiativedetail/HOME.JPG",
       },
       {
         id: "2",
@@ -59,7 +61,7 @@ export const initiatives: InitiativeDetail[] = [
         color: "text-[#268ece]",
         bgColor: "bg-[#268ece]/5",
         description: "Program Pendidikan Pra Sekolah untuk anak-anak, khususnya para refugees yang tinggal di Indonesia.",
-        image: "/images/programs/sekolah-ceria.jpg",
+        image: "/initiativedetail/Children1.JPG",
       },
       {
         id: "3",
@@ -69,7 +71,7 @@ export const initiatives: InitiativeDetail[] = [
         bgColor: "bg-[#268ece]/5",
         description:
           "merupakan program yang diberikan kepada sekolah untuk meningkatkan kualitas pendidikan di sekolah. Bentuk penguatan yang diberikan antara lain sarana perpustakaan sekolah, laboratorium komputer, pelatihan guru, dan bentuk penguatan sistem lainnya",
-        image: "/images/programs/sekolah-ceria.jpg",
+        image: "/initiativedetail/Children2.JPG",
       },
       {
         id: "4",
@@ -79,7 +81,7 @@ export const initiatives: InitiativeDetail[] = [
         bgColor: "bg-[#268ece]/5",
         description:
           "Program pemberian beasiswa pendidikan dalam bentuk bantuan dana pendidikan serta pembinaan bagi anak-anak yatim dan duafa digulirkan dengan skema bantuan Orang Tua Asuh (OTA) dari mitra donatur untuk anak-anak Pemegang Hak Program. Dalam implementasi program tersebut, Human Initiative berkolaborasi dengan mitra/komunitas lokal.",
-        image: "/images/programs/sekolah-ceria.jpg",
+        image: "/initiativedetail/DSC09403.JPG",
       },
       {
         id: "5",
@@ -89,13 +91,14 @@ export const initiatives: InitiativeDetail[] = [
         bgColor: "bg-[#268ece]/5",
         description:
           "Program Dukungan Psikososial bisa mencakup layanan konseling atau terapi untuk siswa yang membutuhkan. Program ini bertujuan untuk memberikan dukungan yang diperlukan kepada siswa untuk mengatasi masalah kesehatan mental serta menciptakan lingkungan sekolah dan keluarga yang mendukung kesehatan mental siswa.",
-        image: "/images/programs/sekolah-ceria.jpg",
+        image: "/initiativedetail/IMG_0056.JPG",
       },
     ],
   },
   {
     type: "empowerment",
-    title: "Community Empowerment",
+    title: "Initiative For Empowerment",
+    img: "/initiatives/DSC09480 (1).jpg",
     description: "Memberdayakan masyarakat melalui pelatihan, kewirausahaan, dan peningkatan kapasitas.",
     featuredPrograms: [
       {
@@ -105,58 +108,59 @@ export const initiatives: InitiativeDetail[] = [
         color: "text-[#268ece]",
         bgColor: "bg-[#268ece]/5",
         description: "Program Pelatihan Keterampilan yang menitikberatkan pada pengkapasitasan masyarakat dalam rangka meningkatkan keterampilan usaha serta kemampuan kerja yang sesuai dengan lapangan pekerjaan yang dibutuhkan.",
-        image: "/images/programs/umkm.jpg",
+        image: "/initiativedetail/DSC02810-2.jpg",
       },
       {
         id: "2",
-        title: "Pelatihan Keterampilan",
+        title: "Dukungan Sarana & Modal Usaha",
         icon: "shield",
         color: "text-[#268ece]",
         bgColor: "bg-[#268ece]/5",
         description: "Program Sarana dan Modal Usaha dengan bantuan pembinaan yang bertujuan untuk meningkatkan pengetahuan dan keterampilan UMKM.",
-        image: "/images/programs/umkm.jpg",
+        image: "/initiativedetail/IMG_20210215_092059_1.jpg",
       },
       {
         id: "3",
-        title: "Pelatihan Keterampilan",
+        title: "Pemberdayaan Ekonomi Keluarga",
         icon: "shield",
         color: "text-[#268ece]",
         bgColor: "bg-[#268ece]/5",
         description: "Program pemberdayaan ekonomi keluarga yang bertujuan untuk meningkatkan pendapatan suatu keluarga dengan memberikan kesempatan bagi keluarga yang memiliki unit usaha",
-        image: "/images/programs/umkm.jpg",
+        image: "/initiativedetail/DSC09558.JPG",
       },
       {
         id: "4",
-        title: "Pelatihan Keterampilan",
+        title: "Pemberdayaan Ekonomi Komunitas",
         icon: "shield",
         color: "text-[#268ece]",
         bgColor: "bg-[#268ece]/5",
         description: "Program pemberdayaan masyarakat yang bertujuan untuk meningkatkan pendapatan masyarakat dalam suatu wilayah dengan membangun ekosistem yang kondusif bagi pengembangan ekonomi masyarakat",
-        image: "/images/programs/umkm.jpg",
+        image: "/initiativedetail/DSC06075.JPG",
       },
       {
         id: "5",
-        title: "Pelatihan Keterampilan",
+        title: "Pemenuhan Gizi dan Ketahanan Pangan",
         icon: "shield",
         color: "text-[#268ece]",
         bgColor: "bg-[#268ece]/5",
         description: "Program bantuan peningkatan derajat kesehatan terhadap isu-isu kesehatan di lingkungan masyarakat.",
-        image: "/images/programs/umkm.jpg",
+        image: "/initiativedetail/KetahananPanganEmpowerment.jpg",
       },
       {
         id: "6",
-        title: "Pelatihan Keterampilan",
+        title: "Perbaikan Akses Air Bersih dan Sanitasi",
         icon: "shield",
         color: "text-[#268ece]",
         bgColor: "bg-[#268ece]/5",
         description: "Program pemberdayaan masyarakat sebagai upaya peningkatan perilaku hidup sehat dan pengelolaan sampah rumah tangga berbasis komunitas.",
-        image: "/images/programs/umkm.jpg",
+        image: "/initiativedetail/IMG_7337 (1).JPG",
       },
     ],
   },
   {
     type: "infrastructure",
-    title: "Infrastructure Development",
+    title: "Initiative for Infrastructure",
+    img: "/initiatives/DSC00561 (1).jpg",
     description: "Membangun fasilitas umum dan sarana infrastruktur berkelanjutan untuk masyarakat.",
     featuredPrograms: [
       {
@@ -166,7 +170,7 @@ export const initiatives: InitiativeDetail[] = [
         color: "text-[#268ece]",
         bgColor: "bg-[#268ece]/5",
         description: "",
-        image: "/images/programs/sumur-air.jpg",
+        image: "/initiativedetail/Infras5.JPG",
       },
       {
         id: "2",
@@ -175,7 +179,7 @@ export const initiatives: InitiativeDetail[] = [
         color: "text-[#268ece]",
         bgColor: "bg-[#268ece]/5",
         description: "",
-        image: "/images/programs/sumur-air.jpg",
+        image: "/initiativedetail/Infras4.JPG",
       },
       {
         id: "3",
@@ -184,7 +188,7 @@ export const initiatives: InitiativeDetail[] = [
         color: "text-[#268ece]",
         bgColor: "bg-[#268ece]/5",
         description: "Pembangunan sumur yang bertujuan untuk menyediakan sarana air bersih sehingga mampu meningkatkan kesejahteraan dan membentuk lingkungan masyarakat yang sehat.",
-        image: "/images/programs/sumur-air.jpg",
+        image: "/initiativedetail/DSC03562.JPG",
       },
       {
         id: "4",
@@ -193,7 +197,7 @@ export const initiatives: InitiativeDetail[] = [
         color: "text-[#268ece]",
         bgColor: "bg-[#268ece]/5",
         description: "Kegiatan penyediaan sarana maupun prasarana yang bertujuan mendukung program kesehatan masyarakat sehingga mampu meningkatkan kesejahteraan dan membentuk lingkungan masyarakat yang sehat.",
-        image: "/images/programs/sumur-air.jpg",
+        image: "/initiativedetail/Dean Markley Vadiamora_Indonesia Sehat Dengan Bebas Stunting_Layanan Posyandu Memantau dan Mencegah Stunting - 9 - Dean Markley Vadiamora.jpeg",
       },
       {
         id: "5",
@@ -202,7 +206,7 @@ export const initiatives: InitiativeDetail[] = [
         color: "text-[#268ece]",
         bgColor: "bg-[#268ece]/5",
         description: "Kegiatan pembangunan ataupun perbaikan fasilitas umum yang bertujuan untuk meningkatkan kualitas hidup masyarakat dan mendukung pembangunan berkelanjutan.",
-        image: "/images/programs/sumur-air.jpg",
+        image: "/initiativedetail/DSC02836.JPG",
       },
       {
         id: "6",
@@ -211,7 +215,7 @@ export const initiatives: InitiativeDetail[] = [
         color: "text-[#268ece]",
         bgColor: "bg-[#268ece]/5",
         description: "Kegiatan distribusi peralatan ibadah yang bertujuan untuk mendukung kegiatan ibadah bagi masyarakat duafa dan mendukung pembangunan berkelanjutan.",
-        image: "/images/programs/sumur-air.jpg",
+        image: "/initiativedetail/DSC06057.JPG",
       },
     ],
   },

@@ -18,7 +18,7 @@ export function Programs({ data }: Props) {
     <section id="programs" className="py-20 bg-white relative z-10">
       <div className="container mx-auto px-4">
         <motion.div initial={{ opacity: 1, y: 0 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-          <Badge className="mb-4 bg-[#268ece]/10 text-[#268ece] hover:bg-[#268ece]/20 border-[#268ece]/20">Initiative for Disaster</Badge>
+          <Badge className="mb-4 bg-[#268ece]/10 text-[#268ece] hover:bg-[#268ece]/20 border-[#268ece]/20">{data.title}</Badge>
           <p className="text-gray-600 max-w-3xl mx-auto mb-2">Comprehensive programs from emergency response to long-term empowerment</p>
           <p className="text-sm text-gray-500 flex items-center justify-center gap-2">
             <span className="w-2 h-2 bg-[#268ece] rounded-full animate-pulse" />

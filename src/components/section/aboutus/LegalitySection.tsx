@@ -1,5 +1,7 @@
 import { FileCheck, Shield, CheckCircle, Building, Award, Users, Globe } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Image from "next/image";
+import Link from "next/link";
 
 const LegalitySection = () => {
   const registrations = [
@@ -25,35 +27,43 @@ const LegalitySection = () => {
 
   const memberships = [
     {
-      name: "HFI (Humanitarian Forum Indonesia)",
-      network: "Sphere International",
+      name: "Humanitarian Forum Indonesia",
+      network: "HFI",
+      img: "/membership/Frame 3 (2).png",
+      url: "https://www.humanitarianforum.or.id/",
     },
     {
       name: "Perhimpunan Filantropi Indonesia",
-      network: "",
+      network: "PFI",
+      img: "/membership/filantropi.jpeg",
+      url: "https://filantropi.or.id/",
     },
     {
       name: "Network for Empowered Aid Response",
       network: "NEAR",
+      img: "/membership/Frame 1 (7).png",
+      url: "https://www.near.ngo/",
     },
     {
-      name: "ICVA",
-      network: "International Council of Voluntary Agencies",
+      name: "International Council of Voluntary Agencies",
+      network: "ICVA",
+      img: "/membership/Frame 2 (4).png",
+      url: "https://www.icvanetwork.org/",
     },
   ];
 
   const certifications = [
     {
       name: "PSEA International",
-      type: "Standarisasi",
+      type: "Standardization",
     },
     {
       name: "TUV Nord Indonesia",
-      type: "Sistem Manajemen Mutu",
+      type: "Quality Management System",
     },
     {
       name: "Komisi Akreditasi Indonesia",
-      type: "Sistem Manajemen Mutu",
+      type: "Quality Management System",
     },
   ];
 
@@ -63,7 +73,7 @@ const LegalitySection = () => {
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl mb-4 text-gray-900">Organizational Credentials</h2>
           <div className="w-20 h-1 bg-[#268ece] mx-auto mb-4"></div>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">Dokumen legal dan sertifikasi yang menjamin transparansi dan akuntabilitas organisasi</p>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">Legal documents and certifications that guarantee the transparency and accountability of the organization</p>
         </div>
 
         {/* Registered as NGO */}
@@ -147,15 +157,17 @@ const LegalitySection = () => {
               <CarouselContent>
                 {memberships.map((item, index) => (
                   <CarouselItem key={index}>
-                    <div className="bg-white rounded-xl p-6 border-2 border-gray-100 mx-2">
-                      <div className="flex items-start gap-3 mb-3">
-                        <Users size={20} className="text-[#268ece] flex-shrink-0 mt-1" />
-                        <div>
-                          <h4 className="text-base mb-1 text-gray-900">{item.name}</h4>
-                          {item.network && <p className="text-sm text-gray-600">{item.network}</p>}
+                    <Link href={item.url}>
+                      <div className="bg-white rounded-xl p-6 border-2 border-gray-100 mx-2">
+                        <div className="flex items-start gap-3 mb-3">
+                          <Image src={item.img} width={100} height={80} alt={item.name} className="text-[#268ece] flex-shrink-0 mt-1" />
+                          <div>
+                            <h4 className="text-base mb-1 text-gray-900">{item.name}</h4>
+                            {item.network && <p className="text-sm text-gray-600">{item.network}</p>}
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   </CarouselItem>
                 ))}
               </CarouselContent>
@@ -167,15 +179,17 @@ const LegalitySection = () => {
           {/* Desktop Grid */}
           <div className="hidden md:grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {memberships.map((item, index) => (
-              <div key={index} className="bg-white rounded-xl p-6 border-2 border-gray-100 hover:border-[#268ece] transition-all hover:shadow-md">
-                <div className="flex items-start gap-3 mb-3">
-                  <Users size={20} className="text-[#268ece] flex-shrink-0 mt-1" />
-                  <div>
-                    <h4 className="text-base mb-1 text-gray-900">{item.name}</h4>
-                    {item.network && <p className="text-sm text-gray-600">{item.network}</p>}
+              <Link href={item.url}>
+                <div key={index} className="flex justify-center items-center bg-white rounded-xl p-6 border-2 border-gray-100 hover:border-[#268ece] transition-all hover:shadow-md h-[150px]">
+                  <div className="flex items-center justify-center gap-3 mb-3">
+                    <Image src={item.img} width={180} height={120} alt={item.name} className="text-[#268ece] flex-shrink-0 mt-1 object-cover" />
+                    {/* <div>
+                      <h4 className="text-base mb-1 text-gray-900">{item.name}</h4>
+                      {item.network && <p className="text-sm text-gray-600">{item.network}</p>}
+                    </div> */}
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

@@ -59,13 +59,7 @@ export function HeroSection() {
 
               {/* Image */}
               <div className="relative h-full overflow-hidden rounded-3xl shadow-2xl">
-                <Image
-                  src="https://images.unsplash.com/photo-1561673879-297ac83cafc7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxodW1hbml0YXJpYW4lMjBhaWQlMjB3b3JrZXJzJTIwaGVscGluZyUyMGNvbW11bml0eXxlbnwxfHx8fDE3NjE2NjQzMzJ8MA&ixlib=rb-4.1.0&q=80&w=1080"
-                  width={800}
-                  height={700}
-                  alt="Humanitarian workers in action"
-                  className="w-full h-full object-cover"
-                />
+                <Image src="/latest/DSC08787 (1).jpg" width={800} height={700} alt="Humanitarian workers in action" className="w-full h-full object-cover" />
                 {/* Subtle Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
               </div>

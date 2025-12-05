@@ -1,6 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { Baby, Briefcase, AlertTriangle, Building2 } from "lucide-react";
+import { Baby, Briefcase, AlertTriangle, Building2, Waves, UsersRound } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { SectionTitle } from "@/components/utility/SectionTitle";
 
@@ -17,7 +17,7 @@ const initiatives = [
     id: 2,
     title: "Initiative for Empowerment",
     description: "Pemberdayaan ekonomi dan peningkatan keterampilan masyarakat",
-    icon: Briefcase,
+    icon: UsersRound,
     color: "#3a9fdb",
     stats: "3,200+ Peserta Program",
   },
@@ -25,7 +25,7 @@ const initiatives = [
     id: 3,
     title: "Initiative for Disaster",
     description: "Tanggap darurat dan pemulihan pasca bencana",
-    icon: AlertTriangle,
+    icon: Waves,
     color: "#1d7ab8",
     stats: "15+ Lokasi Bencana",
   },

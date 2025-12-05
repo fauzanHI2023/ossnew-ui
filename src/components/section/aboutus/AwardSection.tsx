@@ -48,7 +48,7 @@ const AwardsSection = () => {
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl mb-4 text-gray-900">Our Awards</h2>
           <div className="w-20 h-1 bg-[#268ece] mx-auto mb-4"></div>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">Pengakuan dan penghargaan atas dedikasi kami dalam menciptakan dampak sosial</p>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">Recognition and appreciation for our dedication to creating social impact</p>
         </div>
 
         {/* Mobile Carousel - Visible only on mobile */}

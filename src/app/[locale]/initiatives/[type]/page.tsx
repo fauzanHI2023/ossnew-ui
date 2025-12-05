@@ -18,7 +18,7 @@ export default async function InitiativeTypePage({ params }: Props) {
 
   return (
     <div className="p-8 bg-white">
-      <Hero />
+      <Hero data={data} />
       <Programs data={data} />
       <CallToAction />
     </div>

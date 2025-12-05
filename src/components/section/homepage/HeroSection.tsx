@@ -86,13 +86,7 @@ export function HeroSection() {
                   <div className="relative">
                     {/* Image */}
                     <div className="relative h-32 overflow-hidden">
-                      <Image
-                        src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoYW5kcyUyMGdpdmluZyUyMGRvbmF0aW9ufGVufDF8fHx8MTc2MDUwNTExNXww&ixlib=rb-4.1.0&q=80&w=1080"
-                        width={600}
-                        height={400}
-                        alt="Donate Now"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                      />
+                      <Image src="/Donate Now (1) (1).jpg" width={600} height={400} alt="Donate Now" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                       <div className="absolute inset-0 bg-[#268ece]/30" />
                     </div>
 
@@ -126,13 +120,7 @@ export function HeroSection() {
                   <div className="relative">
                     {/* Image */}
                     <div className="relative h-32 overflow-hidden">
-                      <Image
-                        src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3Jwb3JhdGUlMjBoYW5kc2hha2UlMjBtZWV0aW5nfGVufDF8fHx8MTc2MDUwNTExNXww&ixlib=rb-4.1.0&q=80&w=1080"
-                        width={600}
-                        height={400}
-                        alt="Partner With Us"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                      />
+                      <Image src="/Partrner with us (1) (1).jpg" width={600} height={400} alt="Partner With Us" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white/80" />
                     </div>
 
@@ -163,13 +151,7 @@ export function HeroSection() {
                   <div className="relative">
                     {/* Image */}
                     <div className="relative h-32 overflow-hidden">
-                      <Image
-                        src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZW9wbGUlMjBjb21tdW5pdHklMjBoZWxwfGVufDF8fHx8MTc2MDUwNTExNnww&ixlib=rb-4.1.0&q=80&w=1080"
-                        width={600}
-                        height={400}
-                        alt="Be Rights Holder"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                      />
+                      <Image src="/be rightholders (1) (1).jpg" width={600} height={400} alt="Be Rights Holder" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white/80" />
                     </div>
 
@@ -225,13 +207,7 @@ export function HeroSection() {
               <div className="relative">
                 {/* Image */}
                 <div className="relative h-32 overflow-hidden">
-                  <Image
-                    src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoYW5kcyUyMGdpdmluZyUyMGRvbmF0aW9ufGVufDF8fHx8MTc2MDUwNTExNXww&ixlib=rb-4.1.0&q=80&w=1080"
-                    width={600}
-                    height={400}
-                    alt="Donate Now"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
+                  <Image src="/Donate Now (1) (1).jpg" width={600} height={400} alt="Donate Now" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-[#268ece]/30" />
                 </div>
 
@@ -263,13 +239,7 @@ export function HeroSection() {
               <div className="relative">
                 {/* Image */}
                 <div className="relative h-32 overflow-hidden">
-                  <Image
-                    src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3Jwb3JhdGUlMjBoYW5kc2hha2UlMjBtZWV0aW5nfGVufDF8fHx8MTc2MDUwNTExNXww&ixlib=rb-4.1.0&q=80&w=1080"
-                    width={600}
-                    height={400}
-                    alt="Partner With Us"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
+                  <Image src="/Partrner with us (1) (1).jpg" width={600} height={400} alt="Partner With Us" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white/80" />
                 </div>
 
@@ -298,13 +268,7 @@ export function HeroSection() {
               <div className="relative">
                 {/* Image */}
                 <div className="relative h-32 overflow-hidden">
-                  <Image
-                    src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZW9wbGUlMjBjb21tdW5pdHklMjBoZWxwfGVufDF8fHx8MTc2MDUwNTExNnww&ixlib=rb-4.1.0&q=80&w=1080"
-                    width={600}
-                    height={400}
-                    alt="Be Rights Holder"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
+                  <Image src="/be rightholders (1) (1).jpg" width={600} height={400} alt="Be Rights Holder" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white/80" />
                 </div>
 

@@ -164,13 +164,14 @@ export function TopHeader({ onMenuClick, onCartHover }: TopHeaderProps) {
                   {/* Decorative Top Border */}
                   <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#268ece] via-[#3da9f5] to-[#17a2b8]" />
 
-                  <div className="pt-2 space-y-1">
+                  <div className="pt-2 space-y-1 flex flex-col">
                     {latestSubMenu.map((subItem) => {
                       const isActive = activeMenu === `latest-${subItem.id}`;
 
                       return (
-                        <button
+                        <Link
                           key={subItem.id}
+                          href={subItem.url}
                           onClick={() => {
                             setActiveMenu(`latest-${subItem.id}`);
                             setIsLatestOpen(false);
@@ -181,7 +182,7 @@ export function TopHeader({ onMenuClick, onCartHover }: TopHeaderProps) {
                           <Link href={subItem.url}>
                             <span className={`relative z-10 ${isActive ? "text-white" : "text-[#0a2540]"}`}>{subItem.label}</span>
                           </Link>
-                        </button>
+                        </Link>
                       );
                     })}
                   </div>

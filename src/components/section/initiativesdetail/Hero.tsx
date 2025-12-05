@@ -3,8 +3,13 @@ import { motion } from "motion/react";
 import { ArrowRight, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import type { InitiativeDetail } from "../../../../utils/types/initiatives";
 
-export function Hero() {
+interface Props {
+  data: InitiativeDetail;
+}
+
+export function Hero({ data }: Props) {
   return (
     <div className="bg-white pt-20 relative z-0">
       <div className="container mx-auto px-4 py-8 lg:py-12">
@@ -17,7 +22,7 @@ export function Hero() {
               transition={{ delay: 0.3 }}
               className="inline-block mb-4 px-4 py-2 bg-[#268ece]/10 border border-[#268ece]/30 rounded-full text-[#268ece] text-sm font-semibold"
             >
-              Initiative for Disaster
+              {data.title}
             </motion.div>
 
             <motion.h1 initial={{ opacity: 1, y: 0 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="text-gray-900 mb-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
@@ -54,7 +59,7 @@ export function Hero() {
               </div>
               <div className="flex items-center gap-2 text-gray-600">
                 <div className="w-2 h-2 bg-[#268ece] rounded-full" />
-                <span className="text-sm">15 Years of Experience</span>
+                <span className="text-sm">26 Years of Experience</span>
               </div>
             </motion.div>
           </motion.div>
@@ -62,13 +67,7 @@ export function Hero() {
           {/* Right Side - Image */}
           <motion.div initial={{ opacity: 1, x: 0 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="relative">
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-              <Image
-                src="https://images.unsplash.com/photo-1738743610025-6ebe3e13f7b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaXNhc3RlciUyMHJlbGllZiUyMGh1bWFuaXRhcmlhbnxlbnwxfHx8fDE3NjA1MTIzNzJ8MA&ixlib=rb-4.1.0&q=80&w=1080"
-                width={800}
-                height={700}
-                alt="Disaster Relief"
-                className="w-full h-[350px] lg:h-[450px] object-cover"
-              />
+              <Image src={data.img} width={800} height={700} alt="Disaster Relief" className="w-full h-[350px] lg:h-[450px] object-cover" />
               {/* Decorative Elements */}
               <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-[#268ece] rounded-2xl -z-10" />
               <div className="absolute -top-6 -right-6 w-32 h-32 bg-[#268ece]/20 rounded-2xl -z-10" />

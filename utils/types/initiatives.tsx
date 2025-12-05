@@ -16,6 +16,7 @@ export interface FeaturedProgram {
 export interface InitiativeDetail {
   type: InitiativeType;
   title: string;
+  img: string;
   description: string;
   featuredPrograms: FeaturedProgram[];
 }

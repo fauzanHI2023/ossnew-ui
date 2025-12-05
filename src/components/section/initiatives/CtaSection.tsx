@@ -26,7 +26,7 @@ export default function CTASection({ backgroundImage }: CTASectionProps) {
               <Heart className="h-8 w-8 text-white" />
             </div>
             <h3 className="text-2xl mb-3 text-black">Donate Now</h3>
-            <p className="text-gray-600 mb-6">Your contribution directly supports communities in need</p>
+            <p className="text-gray-600 mb-6 flex flex-1">Your contribution directly supports communities in need</p>
             <Button className="w-full bg-[#268ece] hover:bg-[#1d6fa3] text-white">Make a Donation</Button>
           </div>
 
@@ -35,7 +35,7 @@ export default function CTASection({ backgroundImage }: CTASectionProps) {
               <Handshake className="h-8 w-8 text-white" />
             </div>
             <h3 className="text-2xl mb-3 text-black">Partner with Us</h3>
-            <p className="text-gray-600 mb-6">Collaborate to amplify impact and reach more communities</p>
+            <p className="text-gray-600 mb-6 flex flex-1">Collaborate to amplify impact and reach more communities</p>
             <Button className="w-full bg-[#268ece] hover:bg-[#1d6fa3] text-white">Become a Partner</Button>
           </div>
 
@@ -44,7 +44,7 @@ export default function CTASection({ backgroundImage }: CTASectionProps) {
               <Users className="h-8 w-8 text-white" />
             </div>
             <h3 className="text-2xl mb-3 text-black">Be a Rightsholder</h3>
-            <p className="text-gray-600 mb-6">Access programs and services to empower yourself and your community</p>
+            <p className="text-gray-600 mb-6 flex flex-1">Access programs and services to empower yourself and your community</p>
             <Button className="w-full bg-[#268ece] hover:bg-[#1d6fa3] text-white">Join Program</Button>
           </div>
         </div>

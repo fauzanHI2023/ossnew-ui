@@ -1,3 +1,4 @@
+import { url } from "inspector";
 import ProgramCard from "./ProgramCard";
 import { Separator } from "@/components/ui/separator";
 
@@ -7,41 +8,41 @@ export default function ProgramsSection() {
       title: "Initiative For Children",
       description:
         "We believe every child deserves access to quality education, healthcare, and protection. Our comprehensive children's initiative provides educational resources, nutritional support, and safe learning environments to ensure children can thrive and reach their full potential.",
-      imageUrl:
-        "https://images.unsplash.com/photo-1758894650175-a4942061c7b2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGlsZHJlbiUyMGVkdWNhdGlvbiUyMGNvbW11bml0eXxlbnwxfHx8fDE3NjA0OTI5NjB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      imageUrl: "/initiatives/Initiative Children.JPG",
       rightholders: "15,432",
       regions: "34 Provinces",
       reverse: false,
+      url: "/initiatives/children",
     },
     {
       title: "Initiative For Empowerment",
       description:
         "Empowerment begins with opportunity. We provide skills training, entrepreneurship programs, and microfinance access to help individuals and communities achieve economic independence. Our programs focus on women, youth, and marginalized groups to create sustainable livelihoods.",
-      imageUrl:
-        "https://images.unsplash.com/photo-1711202675927-b81cc42a479c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b21lbiUyMGVtcG93ZXJtZW50JTIwY29tbXVuaXR5fGVufDF8fHx8MTc2MDQzNTg1Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      imageUrl: "/initiatives/DSC09480 (1).jpg",
       rightholders: "8,756",
       regions: "28 Provinces",
       reverse: true,
+      url: "/initiatives/empowerment",
     },
     {
-      title: "Initiative For Disaster",
+      title: "Initiative For Disaster Risk Management",
       description:
         "When disaster strikes, rapid response saves lives. Our disaster initiative provides emergency relief, medical assistance, and long-term recovery support. We work with local communities to build resilience and preparedness for future challenges through training and resource mobilization.",
-      imageUrl:
-        "https://images.unsplash.com/photo-1760013767160-8eb4d9ed3115?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaXNhc3RlciUyMHJlbGllZiUyMHZvbHVudGVlcnxlbnwxfHx8fDE3NjA1MTI5MDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      imageUrl: "/initiatives/DSC00884 (1).jpg",
       rightholders: "23,891",
       regions: "12 Provinces",
       reverse: false,
+      url: "/initiatives/disaster",
     },
     {
       title: "Initiative For Infrastructure",
       description:
         "Strong communities are built on strong foundations. We develop essential infrastructure including clean water systems, sanitation facilities, community centers, and sustainable housing. Our approach combines modern engineering with community participation for lasting impact.",
-      imageUrl:
-        "https://images.unsplash.com/photo-1759445777690-769fc6ae0ffb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmZyYXN0cnVjdHVyZSUyMGNvbnN0cnVjdGlvbiUyMGNvbW11bml0eXxlbnwxfHx8fDE3NjA1MTI5MDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      imageUrl: "/initiatives/DSC00561 (1).jpg",
       rightholders: "11,234",
       regions: "19 Provinces",
       reverse: true,
+      url: "/initiatives/infrastructure",
     },
   ];
 
